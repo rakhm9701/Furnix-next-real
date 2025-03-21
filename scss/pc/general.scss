@@ -1,0 +1,597 @@
+
+
+.product-big-card-box {
+	position: relative;
+	margin: 10px;
+	width: 350px;
+	background-color: #ffffff;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	border-radius: 8px;
+	overflow: hidden;
+
+	.card-img {
+		position: relative;
+		width: 100%;
+		height: 280px;
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		cursor: pointer;
+	}
+
+	.info {
+		padding: 16px;
+		display: flex;
+		flex-direction: column;
+		background: #fff;
+
+		.title-price {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			width: 100%;
+
+			.title {
+				color: #222222;
+				font-family: $font;
+				font-size: 16px;
+				font-weight: 500;
+				line-height: 1.2;
+				margin: 0;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				max-width: 220px;
+			}
+
+			.price {
+				color: #222222;
+				font-family: $font;
+				font-size: 16px;
+				font-weight: 600;
+				line-height: 1.2;
+				margin: 0;
+			}
+		}
+	}
+}
+
+// .agent-general-card {
+// 	position: relative;
+// 	margin-right: 27px;
+// 	margin-bottom: 34px;
+// 	display: flex;
+// 	flex-direction: column;
+// 	.agent-img {
+// 		border-radius: 12px;
+// 		width: 233px;
+// 		height: 273px;
+// 		background-size: 100% 100%;
+// 		background-repeat: no-repeat;
+// 		cursor: pointer;
+// 		div {
+// 			position: absolute;
+// 			padding: 12px;
+// 			top: 12px;
+// 			left: 12px;
+// 			border-radius: 6px;
+// 			background: #eb6753;
+// 			color: #fff;
+// 			font-family: $font;
+// 			font-size: 12px;
+// 			font-style: normal;
+// 			font-weight: 600;
+// 			line-height: normal;
+// 		}
+// 	}
+// 	.agent-desc {
+// 		margin-top: 23px;
+// 		display: flex;
+// 		flex-direction: row;
+// 		justify-content: space-between;
+// 		align-items: center;
+// 		.agent-info {
+// 			display: flex;
+// 			flex-direction: column;
+// 			strong {
+// 				color: #181a20;
+// 				font-family: $font;
+// 				font-size: 15px;
+// 				font-style: normal;
+// 				font-weight: 600;
+// 				line-height: normal;
+// 				cursor: pointer;
+// 			}
+// 			span {
+// 				color: #181a20;
+// 				font-family: $font;
+// 				font-size: 15px;
+// 				font-style: normal;
+// 				font-weight: 400;
+// 				line-height: 28px;
+// 			}
+// 		}
+// 		.buttons {
+// 			width: auto;
+// 			display: flex;
+// 			flex-direction: row;
+// 			justify-content: center;
+// 			align-items: center;
+// 			svg {
+// 				width: 24px;
+// 				height: 24px;
+// 				cursor: pointer;
+// 			}
+// 			.view-cnt {
+// 				font-size: 13px;
+// 			}
+// 		}
+// 	}
+// }
+
+.agent-general-card {
+	position: relative;
+	margin-right: 27px;
+	margin-bottom: 34px;
+	display: flex;
+	flex-direction: column;
+	transition: all 0.35s ease;
+	width: 233px;
+	background: white;
+	border: 1px solid #e0e0e0;
+
+	/* Rasm konteyner */
+	.agent-img {
+		position: relative;
+		width: 233px;
+		height: 273px;
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		cursor: pointer;
+		transition: all 0.35s ease;
+
+		/* Gradient overlay */
+		&::after {
+			content: '';
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			height: 80px;
+			background: linear-gradient(to top, rgba(44, 62, 80, 0.85), rgba(44, 62, 80, 0));
+			z-index: 1;
+		}
+
+		/* Products badge */
+		div {
+			position: absolute;
+			padding: 8px 16px;
+			bottom: 20px;
+			right: 0;
+			border-radius: 4px 0 0 4px;
+			background: rgba(52, 73, 94, 0.9);
+			color: rgba(255, 255, 255, 0.9);
+			font-family: $font;
+			font-size: 12px;
+			font-style: normal;
+			font-weight: 600;
+			letter-spacing: 1px;
+			text-transform: uppercase;
+			transition: all 0.35s ease;
+			z-index: 2;
+		}
+	}
+
+	/* Ma'lumot qismi */
+	.agent-desc {
+		padding: 15px;
+
+		.agent-info {
+			display: flex;
+			flex-direction: column;
+			margin-bottom: 10px;
+
+			strong {
+				color: #181a20;
+				font-family: $font;
+				font-size: 15px;
+				font-style: normal;
+				font-weight: 600;
+				line-height: normal;
+				cursor: pointer;
+				position: relative;
+				width: 100%;
+				display: block;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				margin-bottom: 8px;
+
+				&::after {
+					content: '';
+					position: absolute;
+					bottom: -4px;
+					left: 0;
+					width: 30px;
+					height: 2px;
+					background-color: #3498db;
+					transition: width 0.35s ease;
+				}
+			}
+
+			span {
+				color: #7f8c8d;
+				font-family: $font;
+				font-size: 14px;
+				font-style: normal;
+				font-weight: 400;
+			}
+		}
+
+		.buttons {
+			display: flex;
+			align-items: center;
+			margin-top: 10px;
+			.stat-item {
+				display: flex;
+				align-items: center;
+				margin-right: 15px;
+				svg {
+					width: 20px;
+					height: 20px;
+					color: #34495e;
+				}
+				.view-cnt {
+					font-size: 13px;
+					color: #34495e;
+					font-weight: 500;
+					margin-left: 5px;
+				}
+			}
+		}
+	}
+
+	/* Agent belgisi */
+	&::after {
+		content: 'AGENT';
+		position: absolute;
+		top: 15px;
+		left: 15px;
+		color: #fff;
+		font-size: 10px;
+		font-weight: 600;
+		letter-spacing: 1.5px;
+		padding: 4px 8px;
+		background-color: #34495e;
+		z-index: 2;
+	}
+}
+
+// .community-general-card-config {
+// 	position: relative;
+// 	height: auto;
+// 	gap: 20px;
+// 	border-radius: 12px;
+// 	cursor: pointer;
+// 	.image-box {
+// 		width: 100%;
+// 		height: 283px;
+// 		.card-img {
+// 			width: 100%;
+// 			height: 100%;
+// 			border-radius: 12px;
+// 		}
+// 	}
+// 	.desc-box {
+// 		display: flex;
+// 		flex-direction: row;
+// 		justify-content: space-between;
+// 		align-items: center;
+// 		width: 100%;
+// 		height: 80px;
+// 		.title {
+// 			color: #717171;
+// 			font-family: $font;
+// 			font-size: 13px;
+// 			font-style: normal;
+// 			font-weight: 400;
+// 			line-height: normal;
+// 		}
+// 		.desc {
+// 			color: #181a20;
+// 			font-family: $font;
+// 			font-size: 15px;
+// 			font-style: normal;
+// 			font-weight: 600;
+// 			line-height: 26px;
+// 			text-transform: capitalize;
+// 		}
+// 		.buttons {
+// 			width: auto;
+// 			display: flex;
+// 			flex-direction: row;
+// 			justify-content: center;
+// 			align-items: center;
+// 			svg {
+// 				width: 24px;
+// 				height: 24px;
+// 				cursor: pointer;
+// 			}
+// 			.view-cnt {
+// 				font-size: 13px;
+// 			}
+// 		}
+// 	}
+// 	.date-box {
+// 		position: absolute;
+// 		width: 70px;
+// 		height: 69.014px;
+// 		align-items: center;
+// 		justify-content: center;
+// 		top: 235px;
+// 		right: 20px;
+// 		border-radius: 12px;
+// 		background: #fff;
+// 		box-shadow: 0px 6px 15px 0px rgba(64, 79, 104, 0.05);
+// 		.month {
+// 			color: #181a20;
+// 			text-align: center;
+// 			font-family: $font;
+// 			font-size: 13px;
+// 			font-style: normal;
+// 			font-weight: 400;
+// 			line-height: normal;
+// 		}
+// 		.day {
+// 			color: #181a20;
+// 			font-family: $font;
+// 			font-size: 20px;
+// 			font-style: normal;
+// 			font-weight: 600;
+// 			line-height: normal;
+// 		}
+// 	}
+// }
+
+.community-general-card-config {
+	position: relative;
+	width: 976.91px;
+	height: 658px;
+	gap: 5px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-radius: 16px;
+	cursor: pointer;
+	background: #f6f6f6;
+
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	&:hover {
+		transform: translateY(-7px);
+		box-shadow: 0px 10px 25px 0px rgba(24, 26, 32, 0.12);
+	}
+	.image-box {
+		position: relative;
+		width: 976.91px;
+		height: 500px;
+		overflow: hidden;
+		border-radius: 16px 16px 0 0;
+		position: relative;
+
+		&:after {
+			content: '';
+			position: absolute;
+			top: 15px;
+			left: 15px;
+			background-color: #fff;
+			color: #181a20;
+			padding: 6px 14px;
+			border-radius: 20px;
+			font-family: $font;
+			font-size: 12px;
+			font-weight: 600;
+			content: 'INTERIOR DESIGN';
+			box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.08);
+		}
+
+		.card-img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			transition: transform 0.5s ease;
+
+			&:hover {
+				transform: scale(1.05);
+			}
+		}
+	}
+	.top-box {
+		position: relative;
+		width: 976.91px;
+		height: 30px;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		align-items: center;
+		.date-box {
+			position: relative;
+			width: 107px;
+			height: 14px;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-around;
+			border-radius: 12px;
+			background: red($color: #000000);
+			box-shadow: 0px 6px 15px 0px rgba(24, 26, 32, 0.08);
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+			&:hover {
+				transform: translateY(-1px) scale(1.05);
+			}
+
+			.month {
+				color: rgb(122, 116, 116);
+				font-family: Onest;
+				font-size: 12px;
+				font-weight: 500;
+				line-height: 16px;
+				letter-spacing: 0px;
+				text-align: left;
+				text-transform: uppercase;
+			}
+			.day {
+				color: rgb(122, 116, 116);
+				font-family: Onest;
+				font-size: 12px;
+				font-weight: 500;
+				line-height: 16px;
+				letter-spacing: 0px;
+				text-align: left;
+				text-transform: uppercase;
+				&:hover {
+					transform: scale(1.1);
+				}
+			}
+		}
+		.comment-box {
+			position: relative;
+			width: 80px;
+			height: 16px;
+			color: rgb(122, 116, 116);
+			font-family: Onest;
+			font-size: 12px;
+			font-weight: 500;
+			line-height: 16px;
+			letter-spacing: 0px;
+			text-align: left;
+			transition: transform 0.5s ease;
+
+			&:hover {
+				transform: scale(1.05);
+			}
+		}
+		.title-box {
+			padding-top: 30px;
+			position: relative;
+			width: 150px;
+			height: 1px;
+			display: flex;
+			flex-direction: row;
+
+			.title {
+				padding-top: 35px;
+				width: 110px;
+				display: flex;
+				color: rgb(122, 116, 116);
+				font-family: Onest;
+				font-size: 12px;
+				font-weight: 500;
+				line-height: 16px;
+				letter-spacing: 0px;
+				text-align: left;
+				transition: transform 0.5s ease;
+			}
+		}
+	}
+	.desc-box {
+		margin-top: 20px;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		height: auto;
+		padding: 0 15px 15px;
+		transition: transform 0.3s ease;
+		&:hover {
+			transform: translateX(3px);
+		}
+		.title {
+			color: #717171;
+			font-family: $font;
+			font-size: 13px;
+			font-style: normal;
+			font-weight: 400;
+			line-height: 1.5;
+			margin-top: 5px;
+			max-width: 200px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			transition: color 0.3s ease;
+			&:hover {
+				color: #181a20;
+			}
+		}
+
+		.desc {
+			color: #181a20;
+			font-family: $font;
+			font-size: 16px;
+			font-style: normal;
+			font-weight: 600;
+			line-height: 1.4;
+			text-transform: capitalize;
+			transition: color 0.3s ease;
+			position: relative;
+			padding-bottom: 5px;
+			max-width: 200px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+
+			&:after {
+				content: '';
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 0;
+				height: 2px;
+				background-color: #181a20;
+				transition: width 0.3s ease;
+			}
+
+			&:hover {
+				color: #181a20;
+
+				&:after {
+					width: 100%;
+				}
+			}
+		}
+
+		.buttons {
+			width: auto;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			gap: 3px;
+
+			svg {
+				width: 20px;
+				height: 20px;
+				cursor: pointer;
+				transition: transform 0.3s ease, color 0.3s ease;
+
+				&:hover {
+					transform: scale(1.15);
+				}
+			}
+
+			.view-cnt {
+				font-size: 13px;
+				transition: transform 0.3s ease;
+				color: #717171;
+
+				&:hover {
+					transform: translateY(-2px);
+				}
+			}
+		}
+	}
+
+}
