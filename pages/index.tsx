@@ -13,7 +13,7 @@ import Information from '../libs/components/homepage/Information';
 import ProductDetail from '../libs/components/homepage/ProductDetail';
 import ProductShowcase from '../libs/components/homepage/ProductShowcase';
 import BrandCategories from '../libs/components/homepage/BrandCategories';
-import Comment from '../libs/components/homepage/Comment';
+
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -41,7 +41,6 @@ const Home: NextPage = () => {
 				<ProductShowcase />
 				<TopProducts />
 				<TopAgents />
-				<Comment />
 				<CommunityBoards />
 				<BrandCategories />
 			</Stack>
