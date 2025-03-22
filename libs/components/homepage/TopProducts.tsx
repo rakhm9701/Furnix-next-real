@@ -12,6 +12,7 @@ import { T } from '../../types/common';
 import { LIKE_TARGET_PRODUCT } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
+import Link from 'next/link';
 
 interface TopProductsProps {
 	initialInput: ProductsInquiry;
@@ -94,17 +95,26 @@ const TopProducts = (props: TopProductsProps) => {
 							<h2 className="section-title">New Products</h2>
 							<p className="section-subtitle">Discover our latest furniture collection</p>
 						</Box>
-					
+						<Box className={'right'}>
+							<div className={'more-box'}>
+								<Link href={'/product'}>
+									<span>See all products</span>
+									<img src="/img/icons/rightup.svg" alt="" />
+								</Link>
+							</div>
+						</Box>
 					</Stack>
 					<Stack className={'card-box'}>
 						<div className="products-grid">
-							{topProducts && topProducts.map((product: Product) => {
-								return <TopProductCard key={product?._id} product={product} likeProductHandler={likeProductHandler} />;
-							})}
+							{topProducts &&
+								topProducts.map((product: Product) => {
+									return (
+										<TopProductCard key={product?._id} product={product} likeProductHandler={likeProductHandler} />
+									);
+								})}
 						</div>
 					</Stack>
 				</Stack>
-			
 			</Stack>
 		);
 	}
