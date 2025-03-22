@@ -4,15 +4,14 @@ import Head from 'next/head';
 import Top from '../Top';
 import Footer from '../Footer';
 import { Stack } from '@mui/material';
-import FiberContainer from '../common/HeroBanner';
 import { userVar } from '../../../apollo/store';
 import { useReactiveVar } from '@apollo/client';
 import { getJwtToken, updateUserInfo } from '../../auth';
 import Chat from '../Chat';
+import HeroBanner from '../common/HeroBanner';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import HeroBanner from '../common/HeroBanner';
 
 const withLayoutMain = (Component: any) => {
 	return (props: any) => {
@@ -31,8 +30,8 @@ const withLayoutMain = (Component: any) => {
 			return (
 				<>
 					<Head>
-						<title>Nestar</title>
-						<meta name={'title'} content={`Nestar`} />
+						<title>Furnix</title>
+						<meta name={'title'} content={`Furnix`} />
 					</Head>
 					<Stack id="mobile-wrap">
 						<Stack id={'top'}>
@@ -53,8 +52,8 @@ const withLayoutMain = (Component: any) => {
 			return (
 				<>
 					<Head>
-						<title>Nestar</title>
-						<meta name={'title'} content={`Nestar`} />
+						<title>Furnix</title>
+						<meta name={'title'} content={`Furnix`} />
 					</Head>
 					<Stack id="pc-wrap">
 						<Stack id={'top'}>

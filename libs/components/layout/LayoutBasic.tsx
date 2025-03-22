@@ -23,45 +23,56 @@ const withLayoutBasic = (Component: any) => {
 		const user = useReactiveVar(userVar);
 
 		const memoizedValues = useMemo(() => {
-			let bgImage = '';
+			let bgImage = '',
+				desc = '';
 
 			switch (router.pathname) {
 				case '/product':
+					desc = 'Home / Shop';
 					bgImage = '/img/banner/products.png';
 					break;
 				case '/agent':
+					desc = 'Home / Agent';
 					bgImage = '/img/banner/agents.webp';
 					break;
 				case '/agent/detail':
-					bgImage = '/img/banner/header2.svg';
+					desc = 'Home / Agent / Detail';
+					bgImage = '/img/banner/agents.webp';
 					break;
 				case '/mypage':
+					desc = 'Home / Myprofile';
 					bgImage = '/img/banner/mypage.jpg';
 					break;
 				case '/community':
+					desc = 'Home / Blog';
 					bgImage = '/img/banner/community.jpg';
 					break;
 				case '/community/detail':
-					bgImage = '/img/banner/header2.svg';
+					desc = 'Home / Blog / Detail';
+					bgImage = '/img/banner/community.jpg';
 					break;
 				case '/cs':
+					desc = 'Home / Cs';
 					bgImage = '/img/banner/cs.jpg';
 					break;
 				case '/account/join':
-					bgImage = '/img/banner/header2.svg';
+					desc = 'Home / Signup | Login';
+					bgImage = '/img/banner/community.jpg';
 					setAuthHeader(true);
 					break;
 				case '/member':
+					desc = 'Home / Member';
 					bgImage = '/img/banner/header1.svg';
 					break;
 				case '/about':
+					desc = 'Home / About';
 					bgImage = '/img/banner/agent.webp';
 					break;
 				default:
 					break;
 			}
 
-			return { bgImage };
+			return { desc, bgImage };
 		}, [router.pathname]);
 
 		/** LIFECYCLES **/
@@ -77,7 +88,7 @@ const withLayoutBasic = (Component: any) => {
 				<>
 					<Head>
 						<title>Furnix</title>
-						<meta name={'title'} content={`Nestar`} />
+						<meta name={'title'} content={`Furnix`} />
 					</Head>
 					<Stack id="mobile-wrap">
 						<Stack id={'top'}>
@@ -99,7 +110,7 @@ const withLayoutBasic = (Component: any) => {
 				<>
 					<Head>
 						<title>Furnix</title>
-						<meta name={'title'} content={`Nestar`} />
+						<meta name={'title'} content={`Furnix`} />
 					</Head>
 					<Stack id="pc-wrap">
 						<Stack id={'top'}>
@@ -116,7 +127,9 @@ const withLayoutBasic = (Component: any) => {
 								boxShadow: 'inset 10px 40px 150px 40px rgb(24 22 36)',
 							}}
 						>
-							<Stack className={'container'}></Stack>
+							<Stack className={'container'}>
+								<span>{t(memoizedValues.desc)}</span>
+							</Stack>
 						</Stack>
 
 						<Stack id={'main'}>
