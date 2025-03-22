@@ -1726,12 +1726,12 @@
 				height: 600px;
 				display: flex;
 				flex-direction: row;
-				.left{
+				.left {
 					width: 660px;
 					height: 550px;
 					background: yellowgreen;
 				}
-				.right{
+				.right {
 					background: red;
 					width: 660px;
 					height: 550px;
@@ -1784,11 +1784,12 @@
 							font-weight: 500;
 							color: #333;
 							cursor: pointer;
-							transition: all 0.3s ease;
-							background: #f6f6f6;
+							background-color: #f6f6f6;
+							transition: background-color 0.3s ease;
 
 							&:hover {
-								background-color: #f0f0f0;
+								color: #f6f6f6;
+								  background: linear-gradient(to right, #5a6b76, #405791);
 							}
 						}
 					}
@@ -1803,6 +1804,7 @@
 						grid-template-columns: repeat(2, 1fr);
 						gap: 25px;
 						background-image: url('/img/fiber/blog.jpg');
+						background-repeat: no-repeat;
 
 						.blog-card {
 							cursor: pointer;
