@@ -1,21 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Pagination, Stack, Typography } from '@mui/material';
-import ProductCard from '../product/ProductCard';
-import { Product } from '../../types/product/product';
-import { T } from '../../types/common';
-import { useMutation, useQuery } from '@apollo/client';
+import { Pagination, Stack, Typography, Box, Button, IconButton, useTheme } from '@mui/material';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { LIKE_TARGET_PRODUCT } from '../../../apollo/user/mutation';
 import { GET_FAVORITES } from '../../../apollo/user/query';
 import { Messages } from '../../config';
-import { sweetMixinErrorAlert } from '../../sweetAlert';
+import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
+import { Star, ShoppingCart, Close, FavoriteBorder } from '@mui/icons-material';
+import { T } from '../../types/common';
+import { Product } from '../../types/product/product';
+import { userVar } from '../../../apollo/store';
+import Link from 'next/link';
+import { useCart } from '../../context/useCart';
 
-const MyFavorites: NextPage = () => {
+
+const Wishlist: NextPage = () => {
+	const theme = useTheme();
 	const device = useDeviceDetect();
+	const user = useReactiveVar(userVar);
 	const [myFavorites, setMyFavorites] = useState<Product[]>([]);
 	const [total, setTotal] = useState<number>(0);
-	const [searchFavorites, setSearchFavorites] = useState<T>({ page: 1, limit: 6 });
+	const { addToCart } = useCart();
+	const [searchFavorites, setSearchFavorites] = useState<T>({
+		page: 1,
+		limit: 6,
+	});
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
@@ -40,7 +50,7 @@ const MyFavorites: NextPage = () => {
 		setSearchFavorites({ ...searchFavorites, page: value });
 	};
 
-	const likeProductHandler = async (user: any, id: string) => {
+	const likeProductHandler = async (id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Messages.error2);
@@ -51,57 +61,213 @@ const MyFavorites: NextPage = () => {
 				},
 			});
 
-			await getFavoritesRefetch;
+			await getFavoritesRefetch();
 		} catch (err: any) {
-			console.log('ERROR, likeProeprtyHandler:', err.message);
+			console.log('ERROR, likeProductHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
 
+		const handleAddToCart = async (product: Product) => {
+			try {
+				
+				addToCart(product, 1);
+				await sweetTopSmallSuccessAlert('Added to cart successfully', 800);
+			} catch (err: any) {
+				await sweetErrorHandling(err);
+			}
+		};
+
+	const renderStars = (rating: number = 5) => {
+		return Array(5)
+			.fill(0)
+			.map((_, index) => (
+				<Star
+					key={index}
+					fontSize="small"
+					style={{
+						color: index < rating ? '#FFC107' : '#E0E0E0',
+					}}
+				/>
+			));
+	};
+
+	const shareWishlist = (platform: string) => {
+		// Implement share functionality here
+		console.log('Share wishlist on:', platform);
+	};
+
 	if (device === 'mobile') {
-		return <div>FURNIX MY FAVORITES MOBILE</div>;
-	} else {
 		return (
-			<div id="my-favorites-page">
-				<Stack className="main-title-box">
-					<Stack className="right-box">
-						<Typography className="main-title">My Favorites</Typography>
-						<Typography className="sub-title">We are glad to see you again!</Typography>
-					</Stack>
-				</Stack>
-				<Stack className="favorites-list-box">
-					{myFavorites?.length ? (
-						myFavorites?.map((product: Product) => {
-							return <ProductCard product={product} likeProductHandler={likeProductHandler} myFavorites={true} />;
-						})
-					) : (
-						<div className={'no-data'}>
-							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Favorites found!</p>
-						</div>
-					)}
-				</Stack>
+			<div id="wishlist-page-mobile">
+				<Typography className="page-title">Wishlist</Typography>
+
 				{myFavorites?.length ? (
-					<Stack className="pagination-config">
-						<Stack className="pagination-box">
+					<Stack spacing={2} className="mobile-items-container">
+						{myFavorites.map((product: Product) => (
+							<Box key={product._id} className="mobile-item-card">
+								<Box className="product-image">
+									<img
+										src={`${process.env.REACT_APP_API_URL}/${product.productImages?.[0] || 'img/placeholder.jpg'}`}
+										alt={product.productTitle}
+									/>
+								</Box>
+								<Box className="product-details">
+									<Box className="rating">{renderStars(product.productComments || 5)}</Box>
+									<Typography className="product-title">{product.productTitle}</Typography>
+									<Typography className="product-price">${product.productPrice}</Typography>
+									<Typography className="product-status">{product.productStatus}</Typography>
+
+									<Box className="actions">
+										<Button
+											variant="contained"
+											className="add-to-cart-btn"
+											onClick={() => addToCart(product)}
+											startIcon={<ShoppingCart />}
+										>
+											Add to Cart
+										</Button>
+										<IconButton className="remove-btn" onClick={() => likeProductHandler(product._id)}>
+											<Close />
+										</IconButton>
+									</Box>
+								</Box>
+							</Box>
+						))}
+
+						<Box className="pagination-wrapper">
 							<Pagination
 								count={Math.ceil(total / searchFavorites.limit)}
 								page={searchFavorites.page}
-								shape="circular"
+								shape="rounded"
 								color="primary"
 								onChange={paginationHandler}
 							/>
-						</Stack>
-						<Stack className="total-result">
-							<Typography>
-								Total {total} favorite propert{total > 1 ? 'ies' : 'y'}
+							<Typography className="total-count">
+								Total {total} wishlist item{total > 1 ? 's' : ''}
 							</Typography>
-						</Stack>
+						</Box>
 					</Stack>
+				) : (
+					<Box className="no-items">
+						<FavoriteBorder className="empty-icon" />
+						<Typography>Your wishlist is empty!</Typography>
+						<Button variant="contained" component={Link} href="/product" className="shop-now-btn">
+							Browse Products
+						</Button>
+					</Box>
+				)}
+			</div>
+		);
+	} else {
+		return (
+			<div id="wishlist-page">
+				<Typography className="page-title">Wishlist</Typography>
+
+				<div className="wishlist-table">
+					{/* Table Header */}
+					<div className="table-header">
+						<div className="header-cell">Product</div>
+						<div className="header-cell">Price</div>
+						<div className="header-cell"> Status</div>
+						<div className="header-cell"> Cart</div>
+						<div className="header-cell"> Remove</div>
+					</div>
+
+					{/* Products List */}
+					{myFavorites?.length ? (
+						myFavorites.map((product: Product) => (
+							<div key={product._id} className="product-row">
+								<div className="product-cell">
+									<div className="product-image">
+										<img
+											src={`${process.env.REACT_APP_API_URL}/${product.productImages?.[0] || 'img/placeholder.jpg'}`}
+											alt={product.productTitle}
+										/>
+									</div>
+									<div className="product-info">
+										<div className="product-name">{product.productTitle}</div>
+										{product.productDesc && <div className="product-details">{product.productDesc}</div>}
+										<div className="rating">
+											{product.productViews} view
+											{product.productLikes} like
+										</div>
+									</div>
+								</div>
+
+								{/* Price */}
+								<div className="price-cell">
+									<div className="current-price">${product.productPrice}</div>
+								</div>
+
+								{/* Stock Status */}
+								{product.productStatus}
+
+								{/* Actions */}
+								<div className="actions-cell">
+									<button className="add-to-cart-btn" onClick={() => handleAddToCart(product)}>
+										<ShoppingCart /> ADD TO CART
+									</button>
+									<div className="remove-btn" onClick={() => likeProductHandler(product._id)}>
+										<Close /> REMOVE
+									</div>
+								</div>
+							</div>
+						))
+					) : (
+						<div className="no-items">
+							<img src="/img/icons/icoAlert.svg" alt="" />
+							<p>No items in your wishlist!</p>
+							<Button variant="contained" component={Link} href="/product" className="shop-now-btn">
+								Browse Products
+							</Button>
+						</div>
+					)}
+				</div>
+
+				{/* Pagination */}
+				{myFavorites?.length ? (
+					<div className="pagination-wrapper">
+						<div className="pagination-controls">
+							<Pagination
+								count={Math.ceil(total / searchFavorites.limit)}
+								page={searchFavorites.page}
+								shape="rounded"
+								color="primary"
+								onChange={paginationHandler}
+							/>
+						</div>
+						<div className="total-count">
+							<Typography>
+								Total {total} wishlist item{total > 1 ? 's' : ''}
+							</Typography>
+						</div>
+					</div>
+				) : null}
+
+				{/* Share Wishlist */}
+				{myFavorites?.length ? (
+					<div className="share-wishlist">
+						<div className="share-label">SHARE WISHLIST:</div>
+						<div className="social-icons">
+							<div className="social-icon" onClick={() => shareWishlist('facebook')}>
+								<img src="/img/icons/facebook.svg" alt="Facebook" />
+							</div>
+							<div className="social-icon" onClick={() => shareWishlist('instagram')}>
+								<img src="/img/icons/instagram.svg" alt="Instagram" />
+							</div>
+							<div className="social-icon" onClick={() => shareWishlist('twitter')}>
+								<img src="/img/icons/twitter.svg" alt="Twitter" />
+							</div>
+							<div className="social-icon" onClick={() => shareWishlist('whatsapp')}>
+								<img src="/img/icons/whatsapp.svg" alt="WhatsApp" />
+							</div>
+						</div>
+					</div>
 				) : null}
 			</div>
 		);
 	}
 };
 
-export default MyFavorites;
+export default Wishlist;
