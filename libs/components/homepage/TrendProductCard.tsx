@@ -8,6 +8,8 @@ import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { useCart } from '../../context/useCart';
+import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 
 interface TrendProductCardProps {
 	product: Product;
@@ -19,12 +21,23 @@ const TrendProductCard = (props: TrendProductCardProps) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
+	const { addToCart } = useCart();
 
 	/** HANDLERS **/
 	const pushDetailHandler = async (productId: string) => {
 		console.log('productId:', productId);
 		await router.push({ pathname: '/product/detail', query: { id: productId } });
 	};
+
+	const handleAddToCart = async () => {
+		try {
+			addToCart(product, 1);
+			await sweetTopSmallSuccessAlert('Added to cart successfully', 800);
+		} catch (err: any) {
+			await sweetErrorHandling(err);
+		}
+	};
+
 
 	if (device === 'mobile') {
 		return (
@@ -90,7 +103,7 @@ const TrendProductCard = (props: TrendProductCardProps) => {
 					<Typography className={'price'}>${product?.productPrice?.toFixed(2)}</Typography>
 				</Box>
 				<div className="add-to-cart-button" onClick={(e: any) => e.stopPropagation()}>
-					<ShoppingCartOutlinedIcon />
+					<ShoppingCartOutlinedIcon onClick={handleAddToCart} />
 				</div>
 			</Stack>
 		);

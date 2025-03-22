@@ -1,18 +1,5 @@
 import React, { useState } from 'react';
-import {
-	Box,
-	Button,
-	IconButton,
-	Typography,
-	Stack,
-	TextField,
-	Card,
-	CardContent,
-	Grid,
-	Container,
-	CircularProgress,
-} from '@mui/material';
-import { Add as AddIcon, Remove as RemoveIcon, Delete as DeleteIcon } from '@mui/icons-material';
+import { Typography, Button, Box, Container, Grid } from '@mui/material';
 import { useRouter } from 'next/router';
 import { REACT_APP_API_URL } from '../../libs/config';
 import { formatterStr } from '../../libs/utils';
@@ -20,19 +7,19 @@ import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../../libs/sweetA
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { NextPage } from 'next';
 import { useCart } from '../../libs/context/useCart';
+import { Add, Remove } from '@mui/icons-material';
+import CloseIcon from '@mui/icons-material/Close';
+import Link from 'next/link';
 
 const CartPage: NextPage = () => {
-	const { state, updateQuantity, removeFromCart, clearCart } = useCart();
+	const { state, updateQuantity, removeFromCart } = useCart();
 	const router = useRouter();
-	const [specialInstructions, setSpecialInstructions] = useState('');
-	const shippingFee = 5.0;
 	const [loading, setLoading] = useState(false);
 
 	const handleQuantityChange = async (productId: string, newQuantity: number) => {
 		try {
 			if (newQuantity < 1) return;
 			updateQuantity(productId, newQuantity);
-			await sweetTopSmallSuccessAlert('Updated quantity', 800);
 		} catch (err: any) {
 			await sweetErrorHandling(err);
 		}
@@ -58,198 +45,215 @@ const CartPage: NextPage = () => {
 		}
 	};
 
-	if (loading) {
-		return (
-			<Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
-				<CircularProgress />
-			</Box>
-		);
-	}
-
 	return (
 		<Container maxWidth="lg" sx={{ py: 4 }}>
-			<Typography variant="h4" gutterBottom>
-				Shopping Cart ({state.itemCount} items)
-			</Typography>
+			<Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+				<Typography variant="h3" sx={{ fontWeight: 'bold' }}>
+					My Cart
+				</Typography>
+				<Button
+					startIcon={
+						<Box component="span" sx={{ transform: 'rotate(180deg)', display: 'flex' }}>
+							→
+						</Box>
+					}
+					onClick={() => router.push('/product')}
+					sx={{ textTransform: 'none', fontWeight: 'normal', fontSize: '16px' }}
+				>
+					Back To Shopping
+				</Button>
+			</Box>
 
-			<Grid container spacing={4}>
-				{/* Cart Items */}
-				<Grid item xs={12} md={8}>
-					<Card>
-						<CardContent>
-							{state.items.map((item) => (
+			<Box sx={{ borderBottom: '1px solid #e0e0e0', pb: 1, mb: 2 }}>
+				<Grid container>
+					<Grid item xs={12} md={5}>
+						<Typography sx={{ fontWeight: 'normal', color: '#666' }}>Product</Typography>
+					</Grid>
+					<Grid item xs={12} md={2} sx={{ textAlign: { md: 'center' } }}>
+						<Typography sx={{ fontWeight: 'normal', color: '#666' }}>Price</Typography>
+					</Grid>
+					<Grid item xs={12} md={3} sx={{ textAlign: { md: 'center' } }}>
+						<Typography sx={{ fontWeight: 'normal', color: '#666' }}>Quantity</Typography>
+					</Grid>
+					<Grid item xs={12} md={2} sx={{ textAlign: { md: 'right' } }}>
+						<Typography sx={{ fontWeight: 'normal', color: '#666' }}>Total</Typography>
+					</Grid>
+				</Grid>
+			</Box>
+
+			{state.items.map((item) => (
+				<Box key={item._id} sx={{ py: 3, borderBottom: '1px solid #e0e0e0' }}>
+					<Grid container alignItems="center" spacing={2}>
+						<Grid item xs={12} md={5}>
+							<Box display="flex" alignItems="center">
 								<Box
-									key={item._id}
 									sx={{
+										width: 120,
+										height: 120,
+										bgcolor: '#f5f5f5',
+										mr: 2,
 										display: 'flex',
 										alignItems: 'center',
-										py: 2,
-										borderBottom: '1px solid #eee',
-										'&:last-child': { borderBottom: 'none' },
+										justifyContent: 'center',
 									}}
 								>
-									{/* Product Image - Changed from Next/Image to img */}
-									<Box
-										sx={{
-											width: 100,
-											height: 100,
-											position: 'relative',
-											mr: 2,
-											display: 'flex',
-											alignItems: 'center',
-											justifyContent: 'center',
+									<img
+										src={`${REACT_APP_API_URL}/${item.productImages[0]}`}
+										alt={item.productTitle}
+										style={{
+											maxWidth: '100%',
+											maxHeight: '100%',
+											objectFit: 'contain',
 										}}
-									>
-										<img
-											src={`${REACT_APP_API_URL}/${item.productImages[0]}`}
-											alt={item.productTitle}
-											style={{
-												maxWidth: '100%',
-												maxHeight: '100%',
-												objectFit: 'contain',
-											}}
-											onError={(e) => {
-												const target = e.target as HTMLImageElement;
-												target.src = '/img/placeholder.png'; // Fallback image
-											}}
-										/>
+										onError={(e) => {
+											const target = e.target as HTMLImageElement;
+											target.src = '/img/placeholder.png';
+										}}
+									/>
+								</Box>
+								<Box>
+									<Box display="flex" mb={1}>
+										{[1, 2, 3, 4, 5].map((star) => (
+											<Box key={star} component="span" color="#FFB800" mr={0.5}>
+												★
+											</Box>
+										))}
 									</Box>
-
-									{/* Product Details */}
-									<Box flex={1}>
-										<Typography variant="h6">{item.productTitle}</Typography>
-										<Typography variant="body2" color="text.secondary">
-											Category: {item.productMaterials}
-										</Typography>
-										{item.selectedSize && (
-											<Typography variant="body2" color="text.secondary">
-												Size: {item.selectedSize}
-											</Typography>
-										)}
-									</Box>
-
-									{/* Price */}
-									<Typography variant="subtitle1" sx={{ mx: 4 }}>
-										${formatterStr(item.productPrice)}
+									<Typography variant="h6" sx={{ fontWeight: 'bold', mb: 0.5 }}>
+										{item.productTitle}
 									</Typography>
-
-									{/* Quantity Controls */}
-									<Stack direction="row" alignItems="center" spacing={1} sx={{ mx: 4 }}>
-										<IconButton
-											size="small"
-											onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
-											disabled={item.quantity <= 1}
-										>
-											<RemoveIcon />
-										</IconButton>
-										<Typography>{item.quantity}</Typography>
-										<IconButton size="small" onClick={() => handleQuantityChange(item._id, item.quantity + 1)}>
-											<AddIcon />
-										</IconButton>
-									</Stack>
-
-									{/* Total & Remove */}
-									<Box sx={{ minWidth: 100, textAlign: 'right' }}>
-										<Typography variant="subtitle1">${formatterStr(item.productPrice * item.quantity)}</Typography>
-										<IconButton color="error" onClick={() => handleRemoveItem(item._id)} size="small">
-											<DeleteIcon />
-										</IconButton>
-									</Box>
+									<Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+										BODY FABRIC:
+										<br />
+										{item.productMaterials}
+									</Typography>
+									{item.selectedSize && (
+										<Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+											SIZE:
+											<br />
+											{item.selectedSize}
+										</Typography>
+									)}
 								</Box>
-							))}
+							</Box>
+						</Grid>
 
-							{state.items.length === 0 && (
-								<Box py={4} textAlign="center">
-									<Typography color="text.secondary">Your cart is empty</Typography>
-								</Box>
-							)}
+						<Grid item xs={12} md={2} sx={{ textAlign: { md: 'center' } }}>
+							<Typography sx={{ fontWeight: 'bold' }}>${formatterStr(item.productPrice)}</Typography>
+						</Grid>
 
-							{/* Cart Actions */}
-							<Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-								<Button variant="outlined" onClick={() => router.push('/product')}>
-									Continue Shopping
+						<Grid item xs={12} md={3} sx={{ textAlign: { md: 'center' } }}>
+							<Box
+								sx={{
+									display: 'inline-flex',
+									alignItems: 'center',
+									border: '1px solid #e0e0e0',
+									borderRadius: '50px',
+									px: 1,
+								}}
+							>
+								<Button sx={{ minWidth: '40px' }} onClick={() => handleQuantityChange(item._id, item.quantity - 1)}>
+									<Remove />
 								</Button>
-								<Button variant="outlined" color="error" onClick={clearCart} disabled={state.items.length === 0}>
-									Clear Cart
+								<Typography sx={{ mx: 2, width: '20px', textAlign: 'center' }}>{item.quantity}</Typography>
+								<Button sx={{ minWidth: '40px' }} onClick={() => handleQuantityChange(item._id, item.quantity + 1)}>
+									<Add />
 								</Button>
 							</Box>
-						</CardContent>
-					</Card>
-				</Grid>
+						</Grid>
 
-				{/* Cart Summary */}
-				<Grid item xs={12} md={4}>
-					<Card>
-						<CardContent>
-							<Typography variant="h6" gutterBottom>
+						<Grid item xs={12} md={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+							<Typography sx={{ fontWeight: 'bold', textAlign: { md: 'right' }, flexGrow: 1 }}>
+								${formatterStr(item.productPrice * item.quantity)}
+							</Typography>
+							<Button onClick={() => handleRemoveItem(item._id)} sx={{ minWidth: 'auto', color: '#999' }}>
+								<Box display="flex" alignItems="center">
+									<CloseIcon fontSize="small" />
+									<Typography variant="body2" component="span" sx={{ ml: 0.5, display: { xs: 'none', sm: 'inline' } }}>
+										REMOVE
+									</Typography>
+								</Box>
+							</Button>
+						</Grid>
+					</Grid>
+				</Box>
+			))}
+
+			{/* Cart Summary */}
+			<Box sx={{ mt: 4 }}>
+				<Grid container spacing={4}>
+					<Grid item xs={12} md={6}>
+						<Box sx={{ bgcolor: '#f9f9f9', p: 3 }}>
+							<Typography variant="h5" sx={{ mb: 3 }}>
 								Cart Totals
 							</Typography>
 
-							<Box sx={{ mb: 2 }}>
-								<Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-									<Typography>Subtotal</Typography>
-									<Typography>${formatterStr(state.total)}</Typography>
-								</Box>
+							<Box sx={{ display: 'flex', justifyContent: 'space-between', py: 2, borderBottom: '1px solid #e0e0e0' }}>
+								<Typography>Cart Subtotal</Typography>
+								<Typography sx={{ fontWeight: 'bold' }}>${formatterStr(state.total)}</Typography>
+							</Box>
 
-								<Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-									<Typography>Shipping</Typography>
-									<Box sx={{ textAlign: 'right' }}>
-										<Typography>Flat Rate: ${formatterStr(shippingFee)}</Typography>
-										<Typography variant="body2" color="text.secondary">
-											Shipping To AL
-										</Typography>
-										<Button sx={{ p: 0, minWidth: 'auto' }} onClick={() => router.push('/shipping')}>
-											Change Address
-										</Button>
-									</Box>
-								</Box>
+							<Box sx={{ display: 'flex', justifyContent: 'space-between', py: 2, borderBottom: '1px solid #e0e0e0' }}>
+								<Typography>Shipping</Typography>
+								<Typography sx={{ fontWeight: 'bold', color: 'green' }}>FREE</Typography>
+							</Box>
 
-								<Box
-									sx={{
-										display: 'flex',
-										justifyContent: 'space-between',
-										pt: 2,
-										borderTop: '1px solid #eee',
-										mb: 2,
-									}}
-								>
-									<Typography variant="h6">Total</Typography>
-									<Typography variant="h6">${formatterStr(state.total + shippingFee)}</Typography>
-								</Box>
+							<Box sx={{ display: 'flex', justifyContent: 'space-between', py: 2 }}>
+								<Typography sx={{ fontWeight: 'bold' }}>TOTAL</Typography>
+								<Typography sx={{ fontWeight: 'bold' }}>${formatterStr(state.total)}</Typography>
+							</Box>
 
+							<Button
+								variant="contained"
+								fullWidth
+								size="large"
+								sx={{
+									mt: 3,
+									bgcolor: '#222',
+									color: 'white',
+									py: 1.5,
+									'&:hover': { bgcolor: '#000' },
+									textTransform: 'uppercase',
+								}}
+								onClick={handleCheckout}
+								disabled={state.items.length === 0}
+							>
+								PROCESSED TO CHECKOUT
+							</Button>
+						</Box>
+					</Grid>
+
+					<Grid item xs={12} md={6}>
+						<Box sx={{ p: 3, border: '1px solid #e0e0e0', display: 'flex', alignItems: 'center', height: '100%' }}>
+							<Box sx={{ flex: 1 }}>
+								<Typography variant="h6" sx={{ mb: 2 }}>
+									Explore Enhanced Possibilities
+								</Typography>
+								<Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+									with the StarStone Financial Card
+								</Typography>
 								<Button
-									variant="contained"
-									fullWidth
-									sx={{
-										mb: 2,
-										color: '#fff',
-										background: '#00bbae',
-										'&:hover': { opacity: 0.7, color: '#fff', background: '#00bbae' },
-									}}
-									onClick={handleCheckout}
-									disabled={state.items.length === 0}
+									sx={{ textTransform: 'none' }}
+									endIcon={
+										<Box component="span" sx={{ display: 'flex', alignItems: 'center' }}>
+											⟶
+										</Box>
+									}
 								>
-									Proceed To Checkout
-								</Button>
-
-								<TextField
-									fullWidth
-									multiline
-									rows={4}
-									label="Special Instructions For Seller"
-									value={specialInstructions}
-									onChange={(e) => setSpecialInstructions(e.target.value)}
-									sx={{ mb: 2 }}
-								/>
-
-								<Button variant="outlined" fullWidth onClick={() => router.push('/about')}>
-									Ask Question Now
+									<Link href={'/about'}>Learn more</Link>
 								</Button>
 							</Box>
-						</CardContent>
-					</Card>
+							<Box sx={{ ml: 'auto' }}>
+								<img
+									src="/img/fiber/card.jpg"
+									alt="Credit Card"
+									style={{ width: '300px', height: '250px', transform: 'rotate(19deg)' }}
+								/>
+							</Box>
+						</Box>
+					</Grid>
 				</Grid>
-			</Grid>
+			</Box>
 		</Container>
 	);
 };
