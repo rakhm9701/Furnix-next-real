@@ -94,10 +94,13 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 		}
 
 		case 'LOAD_CART': {
+			// action.payload massiv ekanligini tekshirish
+			const items = Array.isArray(action.payload) ? action.payload : [];
+
 			return {
-				items: action.payload,
-				total: action.payload.reduce((sum, item) => sum + item.productPrice * item.quantity, 0),
-				itemCount: action.payload.reduce((sum, item) => sum + item.quantity, 0),
+				items: items,
+				total: items.reduce((sum, item) => sum + item.productPrice * item.quantity, 0),
+				itemCount: items.reduce((sum, item) => sum + item.quantity, 0),
 			};
 		}
 
@@ -114,9 +117,20 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 	});
 
 	useEffect(() => {
-		const savedCart = localStorage.getItem('cart');
-		if (savedCart) {
-			dispatch({ type: 'LOAD_CART', payload: JSON.parse(savedCart) });
+		try {
+			const savedCart = localStorage.getItem('cart');
+			if (savedCart) {
+				const parsedCart = JSON.parse(savedCart);
+				if (Array.isArray(parsedCart)) {
+					dispatch({ type: 'LOAD_CART', payload: parsedCart });
+				} else {
+					console.error('Cart data is not an array:', parsedCart);
+					localStorage.removeItem('cart'); // Noto'g'ri formatdagi ma'lumotlarni tozalash
+				}
+			}
+		} catch (error) {
+			console.error('Failed to parse cart from localStorage:', error);
+			localStorage.removeItem('cart'); // Buzilgan ma'lumotlarni tozalash
 		}
 	}, []);
 
