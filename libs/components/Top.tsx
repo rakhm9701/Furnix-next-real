@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useState } from 'react';
 import { useRouter, withRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -12,7 +12,7 @@ import { CaretDown } from 'phosphor-react';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import Link from 'next/link';
 import { useReactiveVar } from '@apollo/client';
-import { userVar } from '../../apollo/store';
+import { userVar, notificationListVar, notificationVar } from '../../apollo/store';
 import { logOut } from '../auth';
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../sweetAlert';
 import { Messages } from '../config';
@@ -36,6 +36,8 @@ const Top = () => {
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
 	const { state: cartState } = useCart();
+	const notification = useReactiveVar(notificationVar);
+	const notificationList = useReactiveVar(notificationListVar);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
