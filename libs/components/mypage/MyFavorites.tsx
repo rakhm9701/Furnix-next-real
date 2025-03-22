@@ -13,6 +13,11 @@ import { Product } from '../../types/product/product';
 import { userVar } from '../../../apollo/store';
 import Link from 'next/link';
 import { useCart } from '../../context/useCart';
+import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TelegramIcon from '@mui/icons-material/Telegram';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 
 const Wishlist: NextPage = () => {
@@ -251,16 +256,16 @@ const Wishlist: NextPage = () => {
 						<div className="share-label">SHARE WISHLIST:</div>
 						<div className="social-icons">
 							<div className="social-icon" onClick={() => shareWishlist('facebook')}>
-								<img src="/img/icons/facebook.svg" alt="Facebook" />
+								<FacebookOutlinedIcon />
 							</div>
 							<div className="social-icon" onClick={() => shareWishlist('instagram')}>
-								<img src="/img/icons/instagram.svg" alt="Instagram" />
+								<TelegramIcon />
 							</div>
 							<div className="social-icon" onClick={() => shareWishlist('twitter')}>
-								<img src="/img/icons/twitter.svg" alt="Twitter" />
+								<InstagramIcon />
 							</div>
 							<div className="social-icon" onClick={() => shareWishlist('whatsapp')}>
-								<img src="/img/icons/whatsapp.svg" alt="WhatsApp" />
+								<TwitterIcon />
 							</div>
 						</div>
 					</div>
