@@ -12,6 +12,8 @@ import { userVar } from '../../../apollo/store';
 import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { useCart } from '../../context/useCart';
+import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 
 interface ProductCardType {
 	product: Product;
@@ -27,6 +29,17 @@ const ProductCard = (props: ProductCardType) => {
 	const imagePath: string = product?.productImages[0]
 		? `${REACT_APP_API_URL}/${product?.productImages[0]}`
 		: '/img/banner/header1.svg';
+	const { addToCart } = useCart();
+
+	/** HANDLERS **/
+	const handleAddToCart = async () => {
+		try {
+			addToCart(product, 1);
+			await sweetTopSmallSuccessAlert('Added to cart successfully', 800);
+		} catch (err: any) {
+			await sweetErrorHandling(err);
+		}
+	};
 
 	if (device === 'mobile') {
 		return <div>PRODUCT CARD</div>;
@@ -68,7 +81,7 @@ const ProductCard = (props: ProductCardType) => {
 					<Stack className="price-cart">
 						<Typography className="price">${formatterStr(product?.productPrice)}</Typography>
 						<IconButton className="cart-button">
-							<ShoppingCartOutlinedIcon />
+							<ShoppingCartOutlinedIcon onClick={handleAddToCart} />
 						</IconButton>
 					</Stack>
 				</Stack>
@@ -78,5 +91,3 @@ const ProductCard = (props: ProductCardType) => {
 };
 
 export default ProductCard;
-
-

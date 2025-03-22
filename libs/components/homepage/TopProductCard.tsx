@@ -10,6 +10,8 @@ import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { useCart } from '../../context/useCart';
+import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 
 interface TopProductCardProps {
 	product: Product;
@@ -21,7 +23,7 @@ const TopProductCard = (props: TopProductCardProps) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
-	const [selectedColor, setSelectedColor] = useState(0);
+	const { addToCart } = useCart();
 
 	/** HANDLERS **/
 	const pushDetailHandler = async (productId: string) => {
@@ -29,6 +31,14 @@ const TopProductCard = (props: TopProductCardProps) => {
 		await router.push({ pathname: '/product/detail', query: { id: productId } });
 	};
 
+	const handleAddToCart = async () => {
+		try {
+			addToCart(product, 1);
+			await sweetTopSmallSuccessAlert('Added to cart successfully', 800);
+		} catch (err: any) {
+			await sweetErrorHandling(err);
+		}
+	};
 
 	return (
 		<Stack className="top-card-box product-card">
@@ -60,11 +70,10 @@ const TopProductCard = (props: TopProductCardProps) => {
 				<Typography className={'price'}>${product?.productPrice?.toFixed(2)}</Typography>
 			</Box>
 			<IconButton className="add-to-cart-button" onClick={(e: any) => e.stopPropagation()}>
-				<ShoppingCartOutlinedIcon />
+				<ShoppingCartOutlinedIcon onClick={handleAddToCart} />
 			</IconButton>
 		</Stack>
 	);
 };
 
 export default TopProductCard;
-

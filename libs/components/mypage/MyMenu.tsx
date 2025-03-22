@@ -125,48 +125,6 @@ const MyMenu = () => {
 									</div>
 								</Link>
 							</ListItem>
-							<ListItem className={pathname === 'myCart' ? 'focus' : ''}>
-								<Link
-									href={{
-										pathname: '/cart',
-										query: { category: 'myCart' },
-									}}
-									scroll={false}
-								>
-									<div className={'flex-box'}>
-										{category === 'myCart' ? (
-											<img className={'com-icon'} src={'/img/icons/cart.svg'} alt={'com-icon'} />
-										) : (
-											<img className={'com-icon'} src={'/img/icons/cart.svg'} alt={'com-icon'} />
-										)}
-
-										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											My Cart
-										</Typography>
-									</div>
-								</Link>
-							</ListItem>
-							<ListItem className={pathname === 'recentlyVisited' ? 'focus' : ''}>
-								<Link
-									href={{
-										pathname: '/mypage',
-										query: { category: 'recentlyVisited' },
-									}}
-									scroll={false}
-								>
-									<div className={'flex-box'}>
-										{category === 'recentlyVisited' ? (
-											<img className={'com-icon'} src={'/img/icons/searchWhite.svg'} alt={'com-icon'} />
-										) : (
-											<img className={'com-icon'} src={'/img/icons/search.svg'} alt={'com-icon'} />
-										)}
-
-										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											Recently Visited
-										</Typography>
-									</div>
-								</Link>
-							</ListItem>
 							<ListItem className={pathname === 'followers' ? 'focus' : ''}>
 								<Link
 									href={{
@@ -266,6 +224,9 @@ const MyMenu = () => {
 					</Stack>
 					<Stack className={'section'} sx={{ marginTop: '35px' }}>
 						<div>
+							<Typography className="title" variant={'h5'}>
+								COMMUNITY
+							</Typography>
 							<List className={'sub-section'}>
 								<ListItem className={pathname === 'myArticles' ? 'focus' : ''}>
 									<Link

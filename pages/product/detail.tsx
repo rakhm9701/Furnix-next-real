@@ -7,8 +7,6 @@ import Review from '../../libs/components/product/Review';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Autoplay, Navigation, Pagination } from 'swiper';
 import ProductBigCard from '../../libs/components/common/ProductBigCard';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
@@ -23,15 +21,15 @@ import { Comment } from '../../libs/types/comment/comment';
 import { CommentGroup } from '../../libs/enums/comment.enum';
 import { Pagination as MuiPagination } from '@mui/material';
 import Link from 'next/link';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import 'swiper/css';
-import 'swiper/css/pagination';
 import { GET_COMMENTS, GET_PRODUCTS, GET_PRODUCT } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { CREATE_COMMENT, LIKE_TARGET_PRODUCT } from '../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import { useCart } from '../../libs/context/useCart';
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -52,6 +50,8 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [productComments, setProductComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
+	const { addToCart } = useCart();
+
 	const [insertCommentData, setInsertCommentData] = useState<CommentInput>({
 		commentGroup: CommentGroup.PRODUCT,
 		commentContent: '',
@@ -146,34 +146,6 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 		setSlideImage(image);
 	};
 
-	const likeProductHandler = async (user: T, id: string) => {
-		try {
-			if (!id) return;
-			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
-
-			await likeTargetProduct({ variables: { input: id } });
-
-			await getProductsRefetch({ input: id });
-
-			await getProductsRefetch({
-				input: {
-					page: 1,
-					limit: 4,
-					sort: 'createdAt',
-					direction: Direction.DESC,
-					search: {
-						locationList: [product?.productLocation],
-					},
-				},
-			});
-
-			await sweetTopSmallSuccessAlert('succses', 800);
-		} catch (err: any) {
-			console.log('ERROR, likeProductHandler:', err.message);
-			sweetMixinErrorAlert(err.message).then();
-		}
-	};
-
 	const commentPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
 		commentInquiry.page = value;
 		setCommentInquiry({ ...commentInquiry });
@@ -187,6 +159,16 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 			setInsertCommentData({ ...insertCommentData, commentContent: '' });
 
 			await getCommentsRefetch({ input: commentInquiry });
+		} catch (err: any) {
+			await sweetErrorHandling(err);
+		}
+	};
+
+	const handleAddToCart = async () => {
+		try {
+			if (!product) return;
+			addToCart(product, 1);
+			await sweetTopSmallSuccessAlert('Added to cart successfully', 800);
 		} catch (err: any) {
 			await sweetErrorHandling(err);
 		}
@@ -238,11 +220,9 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 								<Stack direction="row" className="action-buttons">
 									<Button className="add-to-cart">
 										<Box className="icon-cart">🛒</Box>
-										<Typography className="button-text">ADD TO CART</Typography>
-									</Button>
-									<Button className="like-button">
-										<Box className="icon-heart">❤️</Box>
-										<Typography className="button-text">LIKE</Typography>
+										<Typography className="button-text" onClick={handleAddToCart}>
+											ADD TO CART
+										</Typography>
 									</Button>
 								</Stack>
 
