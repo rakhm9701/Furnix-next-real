@@ -614,3 +614,22 @@ export const GET_MEMBER_FOLLOWINGS = gql`
 		}
 	}
 `;
+
+export const GET_NOTIFICATIONS = gql`
+	query GetNotifications {
+		getNotifications {
+			_id
+			notificationType
+			notificationStatus
+			notificationGroup
+			notificationTitle
+			notificationDesc
+			memberId
+			authorId
+			receiverId
+			productId
+			articleId
+			createdAt
+		}
+	}
+`;
