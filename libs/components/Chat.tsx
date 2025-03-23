@@ -12,7 +12,7 @@ import { Member } from '../types/member/member';
 import { Messages, REACT_APP_API_URL } from '../config';
 import { sweetErrorAlert } from '../sweetAlert';
 
-const NewMessage = (type: any) => {
+const Message = (type: any) => {
 	if (type === 'right') {
 		return (
 			<Box
@@ -62,45 +62,45 @@ const Chat = () => {
 	const socket = useReactiveVar(socketVar);
 
 	/** LIFECYCLES **/
+	// check here one more
+	useEffect(() => {
+		socket.onmessage = (msg) => {
+			const data = JSON.parse(msg.data);
+			console.log('WebSocket message: ', data);
 
-	// useEffect(() => {
-	// 	socket.onmessage = (msg) => {
-	// 		const data = JSON.parse(msg.data);
-	// 		console.log('WebSocket message: ', data);
+			switch (data.event) {
+				case 'info':
+					const newInfo: InfoPayload = data;
+					setOnlineUsers(newInfo.totalClients);
+					break;
+				case 'getMessages':
+					console.log('datasssss:', data);
+					const list: MessagePayload[] = data.messages;
+					setMessagesList(list);
 
-	// 		switch (data.event) {
-	// 			case 'info':
-	// 				const newInfo: InfoPayload = data;
-	// 				setOnlineUsers(newInfo.totalClients);
-	// 				break;
-	// 			case 'getMessages':
-	// 				console.log('datasssss:', data);
-	// 				const list: MessagePayload[] = data.messages;
-	// 				setMessagesList(list);
+					break;
+				case 'message':
+					console.log('message:', data);
+					setMessagesList((list) => [...list, data.text]);
+					break;
+				case 'sendMessage':
+					console.log('datasssss:', data);
 
-	// 				break;
-	// 			case 'message':
-	// 				console.log('message:', data);
-	// 				setMessagesList((list) => [...list, data.text]);
-	// 				break;
-	// 			case 'sendMessage':
-	// 				console.log('datasssss:', data);
+					const newMessage: MessagePayload = data.messages;
+					messagesList.push(newMessage);
+					setMessagesList([...messagesList]);
+					break;
+				case 'notification':
+					const newNotification: any[] = data.data;
+					console.log('newnot', newNotification);
 
-	// 				const newMessage: MessagePayload = data.messages;
-	// 				messagesList.push(newMessage);
-	// 				setMessagesList([...messagesList]);
-	// 				break;
-	// 			case 'notification':
-	// 				const newNotification: any[] = data.data;
-	// 				console.log('newnot', newNotification);
-
-	// 				const currentNotificationList = notificationListVar();
-	// 				notificationListVar([...currentNotificationList, ...newNotification]);
-	// 				notificationVar(notificationListVar().length);
-	// 				break;
-	// 		}
-	// 	};
-	// }, [socket, messagesList]);
+					const currentNotificationList = notificationListVar();
+					notificationListVar([...currentNotificationList, ...newNotification]);
+					notificationVar(notificationListVar().length);
+					break;
+			}
+		};
+	}, [socket, messagesList]);
 
 	useEffect(() => {
 		const handleMessage = (msg: MessageEvent) => {

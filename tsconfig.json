@@ -16,6 +16,6 @@
 		"jsx": "preserve",
 		"incremental": true
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "libs/enums/ Fast Refresh had to perform a full reload. Read more: https:/nextjs.org/docs/messages/notification.enum.ts"],
 	"exclude": ["node_modules"]
 }
