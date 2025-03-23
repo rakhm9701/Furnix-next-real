@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, Stack } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, Stack, CircularProgress } from '@mui/material';
 import { useRouter } from 'next/router';
 import { logIn, signUp } from '../../libs/auth';
 import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
@@ -19,6 +19,7 @@ const Join: NextPage = () => {
 	const device = useDeviceDetect();
 	const [input, setInput] = useState({ nick: '', password: '', phone: '', type: 'USER' });
 	const [loginView, setLoginView] = useState<boolean>(true);
+	const [isLoading, setIsLoading] = useState(false);
 
 	/** HANDLERS **/
 	const viewChangeHandler = (state: boolean) => {
@@ -42,26 +43,28 @@ const Join: NextPage = () => {
 	}, []);
 
 	const doLogin = useCallback(async () => {
-		console.warn(input);
+		setIsLoading(true);
 		try {
 			await logIn(input.nick, input.password);
 			await router.push(`${router.query.referrer ?? '/'}`);
 		} catch (err: any) {
 			await sweetMixinErrorAlert(err.message);
+		} finally {
+			setIsLoading(false);
 		}
-	}, [input]);
+	}, [input, router]);
 
 	const doSignUp = useCallback(async () => {
-		console.warn(input);
+		setIsLoading(true);
 		try {
 			await signUp(input.nick, input.password, input.phone, input.type);
 			await router.push(`${router.query.referrer ?? '/'}`);
 		} catch (err: any) {
 			await sweetMixinErrorAlert(err.message);
+		} finally {
+			setIsLoading(false);
 		}
-	}, [input]);
-
-	console.log('+input: ', input);
+	}, [input, router]);
 
 	if (device === 'mobile') {
 		return <div>LOGIN MOBILE</div>;
@@ -97,7 +100,7 @@ const Join: NextPage = () => {
 								<div className={'input-box'}>
 									<span>Password</span>
 									<input
-										type="text"
+										type="password"
 										placeholder={'Enter Password'}
 										onChange={(e) => handleInput('password', e.target.value)}
 										required={true}
@@ -125,7 +128,7 @@ const Join: NextPage = () => {
 							<Box className={'register'}>
 								{!loginView && (
 									<div className={'type-option'}>
-										<span className={'text'}>I want to be registered as:</span>
+										<span className={'text'}>I want to be:</span>
 										<div>
 											<FormGroup>
 												<FormControlLabel
@@ -169,20 +172,36 @@ const Join: NextPage = () => {
 								{loginView ? (
 									<Button
 										variant="contained"
-										endIcon={<img src="/img/icons/rightup.svg" alt="" />}
-										disabled={input.nick == '' || input.password == ''}
+										endIcon={!isLoading && <img src="/img/icons/rightup.svg" alt="" />}
+										disabled={isLoading || input.nick == '' || input.password == ''}
 										onClick={doLogin}
 									>
-										LOGIN
+										{isLoading ? (
+											<>
+												<CircularProgress size={20} color="inherit" sx={{ mr: 1 }} />
+												LOADING...
+											</>
+										) : (
+											'LOGIN'
+										)}
 									</Button>
 								) : (
 									<Button
 										variant="contained"
-										disabled={input.nick == '' || input.password == '' || input.phone == '' || input.type == ''}
+										endIcon={!isLoading && <img src="/img/icons/rightup.svg" alt="" />}
+										disabled={
+											isLoading || input.nick == '' || input.password == '' || input.phone == '' || input.type == ''
+										}
 										onClick={doSignUp}
-										endIcon={<img src="/img/icons/rightup.svg" alt="" />}
 									>
-										SIGNUP
+										{isLoading ? (
+											<>
+												<CircularProgress size={20} color="inherit" sx={{ mr: 1 }} />
+												LOADING...
+											</>
+										) : (
+											'SIGNUP'
+										)}
 									</Button>
 								)}
 							</Box>

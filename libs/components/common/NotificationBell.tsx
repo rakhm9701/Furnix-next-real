@@ -5,7 +5,7 @@ import { NotificationType, NotificationStatus, Notification } from '../../types/
 import { notificationListVar, notificationVar, userVar } from '../../../apollo/store';
 import { useMutation, useReactiveVar, useQuery } from '@apollo/client';
 import { READ_ALL_NOTIFICATION, READ_NOTIFICATION } from '../../../apollo/user/mutation';
-import { GET_NOTIFICATIONS } from '../../../apollo/user/query'; // Bu qo'shilishi kerak
+import { GET_NOTIFICATIONS } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import { Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
@@ -22,15 +22,20 @@ const NotificationBell: React.FC = () => {
 	const notificationList = useReactiveVar(notificationListVar);
 	const [readNotification] = useMutation(READ_NOTIFICATION);
 	const [allReadNotification] = useMutation(READ_ALL_NOTIFICATION);
+	const [isLoading, setIsLoading] = useState(false);
 
-	// Notifikatsiyalarni yuklash
-	const { loading, refetch } = useQuery(GET_NOTIFICATIONS, {
-		skip: !user?._id, // Foydalanuvchi bo'lmasa o'tkazib yuborish
+	// Notifikatsiyalarni yuklash - faqat bir so'rov ishlatamiz
+	const { loading: getNotificationsLoading, refetch } = useQuery(GET_NOTIFICATIONS, {
+		fetchPolicy: 'network-only',
+		skip: !user?._id,
 		onCompleted: (data) => {
-			if (data?.getNotifications) {
+			if (data && data.getNotifications) {
 				notificationListVar(data.getNotifications);
 				notificationVar(data.getNotifications.length);
 			}
+		},
+		onError: (error) => {
+			console.error('Error fetching notifications:', error);
 		},
 	});
 
@@ -41,6 +46,7 @@ const NotificationBell: React.FC = () => {
 		}
 	}, [user, refetch]);
 
+	/** HANDLERS **/
 	const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
 		event.stopPropagation();
 		setAnchorEl(event.currentTarget);
@@ -55,25 +61,24 @@ const NotificationBell: React.FC = () => {
 			if (!notificationId) return;
 			if (!user._id) throw new Error('LOGIN FIRST');
 
-			// Serverga so'rov yuborish
+			setIsLoading(true);
+
+			// Mutatsiyani bajarish
 			const { data } = await readNotification({
 				variables: { input: notificationId },
 				fetchPolicy: 'network-only',
 			});
 
 			if (data && data.notificationTargetProduct) {
-				// Filter bilan yangi massiv yaratish
-				const updatedList = notificationList.filter((item) => item._id !== notificationId);
-
-				// ReactiveVar'larni yangilash (await ishlatmasdan)
-				notificationListVar(updatedList);
-				notificationVar(updatedList.length);
-
+				// Notifikatsiyalarni qayta yuklash
+				await refetch();
 				await sweetTopSmallSuccessAlert('success', 800);
 			}
 		} catch (err: any) {
-			console.log('ERROR, readNotificationHandler', err.message);
+			console.error('ERROR, readNotificationHandler', err);
 			sweetMixinErrorAlert(err.message).then();
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -81,22 +86,24 @@ const NotificationBell: React.FC = () => {
 		try {
 			if (!user._id) throw new Error('LOGIN FIRST');
 
-			// user._id ni ishlatish
+			setIsLoading(true);
+
+			// Mutatsiyani bajarish
 			const { data } = await allReadNotification({
 				variables: { input: user._id },
 				fetchPolicy: 'network-only',
 			});
 
 			if (data && data.notificationsTargetProduct) {
-				// ReactiveVar'larni yangilash (await ishlatmasdan)
-				notificationListVar([]);
-				notificationVar(0);
-
+				// Notifikatsiyalarni qayta yuklash
+				await refetch();
 				await sweetTopSmallSuccessAlert('success', 800);
 			}
 		} catch (err: any) {
-			console.log('ERROR, allReadNotificationsHandler', err.message);
+			console.error('ERROR, allReadNotificationsHandler', err);
 			sweetMixinErrorAlert(err.message).then();
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -195,19 +202,20 @@ const NotificationBell: React.FC = () => {
 						<Box sx={{ fontWeight: 'bold' }}>Notifications</Box>
 						{notifications > 0 && (
 							<Box
-								onClick={() => allReadNotificationsHandler(user)}
+								onClick={() => !isLoading && allReadNotificationsHandler(user)}
 								sx={{
 									color: '#fc800a',
-									cursor: 'pointer',
+									cursor: isLoading ? 'default' : 'pointer',
 									fontSize: '14px',
+									opacity: isLoading ? 0.7 : 1,
 								}}
 							>
-								Mark all as read
+								{isLoading ? 'Processing...' : 'Mark all as read'}
 							</Box>
 						)}
 					</Box>
 
-					{loading ? (
+					{getNotificationsLoading || isLoading ? (
 						<Box sx={{ textAlign: 'center', color: 'gray' }}>Loading...</Box>
 					) : notificationList.length === 0 ? (
 						<Box sx={{ textAlign: 'center', color: 'gray' }}>No notifications</Box>
@@ -233,14 +241,15 @@ const NotificationBell: React.FC = () => {
 									<Box sx={{ fontSize: '12px', color: 'gray' }}>{formatNotificationTime(notification.createdAt)}</Box>
 								</Box>
 								<Box
-									onClick={() => readNotificationHandler(user, notification._id)}
+									onClick={() => !isLoading && readNotificationHandler(user, notification._id)}
 									sx={{
 										color: '#fc800a',
-										cursor: 'pointer',
+										cursor: isLoading ? 'default' : 'pointer',
 										fontSize: '14px',
+										opacity: isLoading ? 0.7 : 1,
 									}}
 								>
-									Read
+									{isLoading ? '...' : 'Read'}
 								</Box>
 							</Box>
 						))
