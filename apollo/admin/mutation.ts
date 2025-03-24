@@ -358,3 +358,37 @@ export const REMOVE_COMMENT_BY_ADMIN = gql`
 		}
 	}
 `;
+
+/**************************
+ *         FAQS           *
+ *************************/
+
+export const CREATE_FAQ = gql`
+	mutation CreateFaq($input: CreateFaqInput!) {
+		createFaq(input: $input) {
+			id
+			noticeTitle
+			noticeContent
+			noticeCategory
+			noticeStatus
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const UPDATE_FAQ = gql`
+	mutation UpdateFaq($id: ID!, $input: UpdateFaqInput!) {
+		updateFaq(id: $id, input: $input) {
+			id
+			noticeTitle
+			noticeContent
+			noticeCategory
+			noticeStatus
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;
