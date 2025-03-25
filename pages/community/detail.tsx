@@ -244,7 +244,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 					<Stack className="main-box">
 						<Stack className="left-config">
 							<Stack className={'image-info'}>
-								<img src={'/img/logo/F-logo.jpg'} />
+								<img src={'/img/logo/logo-A.jpg'} alt={'logo'} />
 								<Stack className={'community-name'}>
 									<Typography className={'name'}>Community Board Article</Typography>
 								</Stack>
@@ -281,8 +281,6 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 							</Tabs>
 						</Stack>
 						<div className="community-detail-config">
-
-							
 							<Stack className="title-box">
 								<Stack className="left">
 									<Typography className="title">{articleCategory} BOARD</Typography>
