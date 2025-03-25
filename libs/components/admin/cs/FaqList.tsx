@@ -1,6 +1,6 @@
-import React from 'react';
+// libs/components/admin/cs/FaqList.tsx
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import {
 	TableCell,
 	TableHead,
@@ -12,188 +12,252 @@ import {
 	Menu,
 	Fade,
 	MenuItem,
+	IconButton,
+	Tooltip,
 } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
+import { NotePencil, Trash } from 'phosphor-react';
+import { format } from 'date-fns';
+import { NoticeStatus } from '../../../enums/notice.enum';
 
 interface Data {
-	category: string;
-	title: string;
-	writer: string;
-	date: string;
-	status: string;
-	id?: string;
+	id: string;
+	noticeTitle: string;
+	noticeContent: string;
+	noticeCategory: string;
+	noticeStatus: NoticeStatus;
+	memberId: string;
+	createdAt: string;
+	updatedAt: string;
 }
-
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-	if (b[orderBy] < a[orderBy]) {
-		return -1;
-	}
-	if (b[orderBy] > a[orderBy]) {
-		return 1;
-	}
-	return 0;
-}
-
-type Order = 'asc' | 'desc';
 
 interface HeadCell {
-	disablePadding: boolean;
 	id: keyof Data;
-	label: string;
 	numeric: boolean;
+	label: string;
 }
 
 const headCells: readonly HeadCell[] = [
 	{
-		id: 'category',
+		id: 'noticeCategory',
 		numeric: true,
-		disablePadding: false,
 		label: 'CATEGORY',
 	},
 	{
-		id: 'title',
+		id: 'noticeTitle',
 		numeric: true,
-		disablePadding: false,
 		label: 'TITLE',
 	},
-
 	{
-		id: 'writer',
+		id: 'memberId',
 		numeric: true,
-		disablePadding: false,
 		label: 'WRITER',
 	},
 	{
-		id: 'date',
+		id: 'createdAt',
 		numeric: true,
-		disablePadding: false,
 		label: 'DATE',
 	},
 	{
-		id: 'status',
+		id: 'noticeStatus',
 		numeric: false,
-		disablePadding: false,
 		label: 'STATUS',
+	},
+	{
+		id: 'id',
+		numeric: false,
+		label: 'ACTION',
 	},
 ];
 
-interface EnhancedTableProps {
-	numSelected: number;
-	onRequestSort: (event: React.MouseEvent<unknown>, product: keyof Data) => void;
-	onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	order: Order;
-	orderBy: string;
-	rowCount: number;
+interface FaqArticlesPanelListProps {
+	faqs: (Data | ({ id: string } & Omit<Data, 'id'>))[]; // Accept both id and _id
+	loading?: boolean;
+	handleStatusChange: (id: string, status: NoticeStatus) => void;
+	handleDelete: (id: string) => void;
 }
 
-function EnhancedTableHead(props: EnhancedTableProps) {
-	const { onSelectAllClick } = props;
-
-	return (
-		<TableHead>
-			<TableRow>
-				{headCells.map((headCell) => (
-					<TableCell
-						key={headCell.id}
-						align={headCell.numeric ? 'left' : 'center'}
-						padding={headCell.disablePadding ? 'none' : 'normal'}
-					>
-						{headCell.label}
-					</TableCell>
-				))}
-			</TableRow>
-		</TableHead>
-	);
-}
-
-interface FaqArticlesPanelListType {
-	dense?: boolean;
-	membersData?: any;
-	searchMembers?: any;
-	anchorEl?: any;
-	handleMenuIconClick?: any;
-	handleMenuIconClose?: any;
-	generateMentorTypeHandle?: any;
-}
-
-export const FaqArticlesPanelList = (props: FaqArticlesPanelListType) => {
-	const {
-		dense,
-		membersData,
-		searchMembers,
-		anchorEl,
-		handleMenuIconClick,
-		handleMenuIconClose,
-		generateMentorTypeHandle,
-	} = props;
+export const FaqArticlesPanelList: React.FC<FaqArticlesPanelListProps> = ({
+	faqs,
+	loading,
+	handleStatusChange,
+	handleDelete,
+}) => {
 	const router = useRouter();
+	const [menuAnchorEl, setMenuAnchorEl] = React.useState<{
+		[key: string]: HTMLElement | null;
+	}>({});
+	const [statusAnchorEl, setStatusAnchorEl] = React.useState<{
+		[key: string]: HTMLElement | null;
+	}>({});
 
-	/** APOLLO REQUESTS **/
-	/** LIFECYCLES **/
-	/** HANDLERS **/
+	const handleMenuClick = (event: React.MouseEvent<HTMLElement>, id: string) => {
+		setMenuAnchorEl((prev) => ({
+			...prev,
+			[id]: event.currentTarget,
+		}));
+	};
+
+	const handleStatusClick = (event: React.MouseEvent<HTMLElement>, id: string) => {
+		setStatusAnchorEl((prev) => ({
+			...prev,
+			[id]: event.currentTarget,
+		}));
+	};
+
+	const handleMenuClose = (id: string) => {
+		setMenuAnchorEl((prev) => ({
+			...prev,
+			[id]: null,
+		}));
+	};
+
+	const handleStatusClose = (id: string) => {
+		setStatusAnchorEl((prev) => ({
+			...prev,
+			[id]: null,
+		}));
+	};
+
+	const getStatusColor = (status: NoticeStatus) => {
+		switch (status) {
+			case NoticeStatus.ACTIVE:
+				return 'success.main';
+			case NoticeStatus.HOLD:
+				return 'warning.main';
+			case NoticeStatus.DELETE:
+				return 'error.main';
+			default:
+				return 'text.primary';
+		}
+	};
+
+	const getStatusBgColor = (status: NoticeStatus) => {
+		switch (status) {
+			case NoticeStatus.ACTIVE:
+				return 'rgba(84, 214, 44, 0.16)';
+			case NoticeStatus.HOLD:
+				return 'rgba(255, 193, 7, 0.16)';
+			case NoticeStatus.DELETE:
+				return 'rgba(255, 72, 66, 0.16)';
+			default:
+				return 'transparent';
+		}
+	};
+
+	useEffect(() => {
+		console.log('Received FAQs:', faqs);
+	}, [faqs]);
 
 	return (
 		<Stack>
 			<TableContainer>
-				<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
-					{/*@ts-ignore*/}
-					<EnhancedTableHead />
+				<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+					<TableHead>
+						<TableRow>
+							{headCells.map((headCell) => (
+								<TableCell key={headCell.id} align={headCell.numeric ? 'left' : 'center'}>
+									{headCell.label}
+								</TableCell>
+							))}
+						</TableRow>
+					</TableHead>
 					<TableBody>
-						{[1, 2, 3, 4, 5].map((ele: any, index: number) => {
-							const member_image = '/img/profile/defaultUser.svg';
-
-							let status_class_name = '';
-
-							return (
-								<TableRow hover key={'member._id'} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-									<TableCell align="left">mb id</TableCell>
-									<TableCell align="left">member.mb_full_name</TableCell>
-									<TableCell align="left" className={'name'}>
-										<Stack direction={'row'}>
-											<Link href={`/_admin/users/detail?mb_id=$'{member._id'}`}>
-												<div>
-													<Avatar alt="Remy Sharp" src={member_image} sx={{ ml: '2px', mr: '10px' }} />
-												</div>
-											</Link>
-											<Link href={`/_admin/users/detail?mb_id=${'member._id'}`}>
-												<div>member.mb_nick</div>
-											</Link>
-										</Stack>
-									</TableCell>
-									<TableCell align="left">member.mb_phone</TableCell>
+						{Array.isArray(faqs) &&
+							faqs.map((faq) => (
+								<TableRow hover key={faq.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+									<TableCell align="left">{faq.noticeCategory}</TableCell>
+									<TableCell align="left">{faq.noticeTitle}</TableCell>
+									<TableCell align="left">{faq.memberId}</TableCell>
+									<TableCell align="left">{format(new Date(faq.createdAt), 'yyyy-MM-dd HH:mm')}</TableCell>
 									<TableCell align="center">
-										<Button onClick={(e: any) => handleMenuIconClick(e, index)} className={'badge success'}>
-											member.mb_type
+										<Button
+											onClick={(e: any) => handleStatusClick(e, faq.id || faq.id)}
+											sx={{
+												color: getStatusColor(faq.noticeStatus),
+												backgroundColor: getStatusBgColor(faq.noticeStatus),
+												'&:hover': {
+													backgroundColor: getStatusBgColor(faq.noticeStatus),
+													opacity: 0.8,
+												},
+											}}
+										>
+											{faq.noticeStatus}
 										</Button>
 
 										<Menu
-											className={'menu-modal'}
-											MenuListProps={{
-												'aria-labelledby': 'fade-button',
-											}}
-											anchorEl={anchorEl[index]}
-											open={Boolean(anchorEl[index])}
-											onClose={handleMenuIconClose}
+											anchorEl={statusAnchorEl[faq.id]}
+											open={Boolean(statusAnchorEl[faq.id])}
+											onClose={() => handleStatusClose(faq.id)}
 											TransitionComponent={Fade}
-											sx={{ p: 1 }}
 										>
-											<MenuItem onClick={(e: any) => generateMentorTypeHandle('member._id', 'mentor', 'originate')}>
-												<Typography variant={'subtitle1'} component={'span'}>
-													MENTOR
-												</Typography>
-											</MenuItem>
-											<MenuItem onClick={(e: any) => generateMentorTypeHandle('member._id', 'user', 'remove')}>
-												<Typography variant={'subtitle1'} component={'span'}>
-													USER
-												</Typography>
+											{Object.values(NoticeStatus).map((status) => (
+												<MenuItem
+													key={status}
+													onClick={() => {
+														handleStatusChange(faq.id, status);
+														handleStatusClose(faq.id);
+													}}
+													disabled={status === faq.noticeStatus}
+													sx={{
+														color: getStatusColor(status),
+													}}
+												>
+													{status}
+												</MenuItem>
+											))}
+										</Menu>
+									</TableCell>
+									<TableCell align="center">
+										<Stack direction="row" spacing={1} justifyContent="center">
+											<Tooltip title="Edit">
+												<IconButton
+													onClick={() => router.push(`/_admin/cs/faq_create?id=${faq.id || faq.id}`)}
+													size="small"
+												>
+													<NotePencil size={20} />
+												</IconButton>
+											</Tooltip>
+											<Tooltip title="Delete">
+												<IconButton onClick={(e: any) => handleMenuClick(e, faq.id || faq.id)} size="small" color="error">
+													<Trash size={20} />
+												</IconButton>
+											</Tooltip>
+										</Stack>
+
+										<Menu
+											anchorEl={menuAnchorEl[faq.id]}
+											open={Boolean(menuAnchorEl[faq.id])}
+											onClose={() => handleMenuClose(faq.id)}
+											TransitionComponent={Fade}
+										>
+											<MenuItem
+												onClick={() => {
+													handleDelete(faq.id);
+													handleMenuClose(faq.id);
+												}}
+												sx={{ color: 'error.main' }}
+											>
+												Delete FAQ
 											</MenuItem>
 										</Menu>
 									</TableCell>
 								</TableRow>
-							);
-						})}
+							))}
+						{loading && (
+							<TableRow>
+								<TableCell colSpan={6} align="center">
+									Loading...
+								</TableCell>
+							</TableRow>
+						)}
+						{!loading && faqs.length === 0 && (
+							<TableRow>
+								<TableCell colSpan={6} align="center">
+									No FAQs found
+								</TableCell>
+							</TableRow>
+						)}
 					</TableBody>
 				</Table>
 			</TableContainer>
