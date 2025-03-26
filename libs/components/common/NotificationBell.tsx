@@ -5,7 +5,7 @@ import { NotificationType, NotificationStatus, Notification } from '../../types/
 import { notificationListVar, notificationVar, userVar } from '../../../apollo/store';
 import { useMutation, useReactiveVar, useQuery } from '@apollo/client';
 import { READ_ALL_NOTIFICATION, READ_NOTIFICATION } from '../../../apollo/user/mutation';
-import { GET_NOTIFICATIONS } from '../../../apollo/user/query';
+
 import { T } from '../../types/common';
 import { Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
@@ -23,28 +23,6 @@ const NotificationBell: React.FC = () => {
 	const [readNotification] = useMutation(READ_NOTIFICATION);
 	const [allReadNotification] = useMutation(READ_ALL_NOTIFICATION);
 	const [isLoading, setIsLoading] = useState(false);
-
-	// Notifikatsiyalarni yuklash - faqat bir so'rov ishlatamiz
-	const { loading: getNotificationsLoading, refetch } = useQuery(GET_NOTIFICATIONS, {
-		fetchPolicy: 'network-only',
-		skip: !user?._id,
-		onCompleted: (data) => {
-			if (data && data.getNotifications) {
-				notificationListVar(data.getNotifications);
-				notificationVar(data.getNotifications.length);
-			}
-		},
-		onError: (error) => {
-			console.error('Error fetching notifications:', error);
-		},
-	});
-
-	// Komponenta yuklanganda notifikatsiyalarni yuklash
-	useEffect(() => {
-		if (user?._id) {
-			refetch();
-		}
-	}, [user, refetch]);
 
 	/** HANDLERS **/
 	const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -70,8 +48,6 @@ const NotificationBell: React.FC = () => {
 			});
 
 			if (data && data.notificationTargetProduct) {
-				// Notifikatsiyalarni qayta yuklash
-				await refetch();
 				await sweetTopSmallSuccessAlert('success', 800);
 			}
 		} catch (err: any) {
@@ -96,7 +72,7 @@ const NotificationBell: React.FC = () => {
 
 			if (data && data.notificationsTargetProduct) {
 				// Notifikatsiyalarni qayta yuklash
-				await refetch();
+
 				await sweetTopSmallSuccessAlert('success', 800);
 			}
 		} catch (err: any) {
@@ -215,9 +191,7 @@ const NotificationBell: React.FC = () => {
 						)}
 					</Box>
 
-					{getNotificationsLoading || isLoading ? (
-						<Box sx={{ textAlign: 'center', color: 'gray' }}>Loading...</Box>
-					) : notificationList.length === 0 ? (
+					{notificationList.length === 0 ? (
 						<Box sx={{ textAlign: 'center', color: 'gray' }}>No notifications</Box>
 					) : (
 						notificationList.map((notification: Notification) => (

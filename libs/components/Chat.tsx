@@ -66,7 +66,7 @@ const Chat = () => {
 	useEffect(() => {
 		socket.onmessage = (msg) => {
 			const data = JSON.parse(msg.data);
-			console.log('WebSocket message: ', data);
+			console.log('WebSocket message===: ', data);
 
 			switch (data.event) {
 				case 'info':
@@ -208,6 +208,7 @@ const Chat = () => {
 		if (!messageInput) sweetErrorAlert(Messages.error4);
 		else if (socket) {
 			socket.send(JSON.stringify({ event: 'sendMessage', data: messageInput }));
+			console.log('Auth-:', messageInput);
 			setMessageInput('');
 		}
 	};

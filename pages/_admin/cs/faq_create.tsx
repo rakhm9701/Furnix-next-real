@@ -1,4 +1,3 @@
-faq_create; // pages/_admin/cs/faq_create.tsx
 import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -106,7 +105,7 @@ const FaqCreate: NextPage = () => {
 				<Stack spacing={3} sx={{ maxWidth: '800px' }}>
 					<FormControl fullWidth>
 						<Typography variant="subtitle1" sx={{ mb: 1 }}>
-							Title
+							Content
 						</Typography>
 						<TextField
 							name="content"
@@ -131,7 +130,7 @@ const FaqCreate: NextPage = () => {
 
 					<FormControl fullWidth>
 						<Typography variant="subtitle1" sx={{ mb: 1 }}>
-							Content
+							Title
 						</Typography>
 						<TextField
 							name="title"

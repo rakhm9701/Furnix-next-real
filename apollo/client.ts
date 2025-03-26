@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { ApolloClient, ApolloLink, InMemoryCache, split, from, NormalizedCacheObject } from '@apollo/client'
-import {createUploadLink} from 'apollo-upload-client';
+import { ApolloClient, ApolloLink, InMemoryCache, split, from, NormalizedCacheObject } from '@apollo/client';
+import { createUploadLink } from 'apollo-upload-client';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { onError } from '@apollo/client/link/error';
@@ -34,7 +34,7 @@ class LoggingWebSocket {
 	private socket: WebSocket;
 
 	constructor(url: string) {
-		this.socket = new WebSocket(`${url}?token=${getJwtToken}`);
+		this.socket = new WebSocket(`${url}?token=${getJwtToken()}`);
 		socketVar(this.socket);
 
 		this.socket.onopen = () => {
@@ -42,7 +42,7 @@ class LoggingWebSocket {
 		};
 
 		this.socket.onmessage = (msg) => {
-			console.log(`WebSocket message:`, msg.data);
+			console.log(`===WebSocket message====:`, msg.data);
 		};
 
 		this.socket.onerror = (error) => {
@@ -59,7 +59,7 @@ class LoggingWebSocket {
 	}
 }
 
-function createIsomorphicLink() {
+export function createIsomorphicLink() {
 	if (typeof window !== 'undefined') {
 		const authLink = new ApolloLink((operation, forward) => {
 			operation.setContext(({ headers = {} }) => ({

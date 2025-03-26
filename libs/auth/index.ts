@@ -1,5 +1,5 @@
 import decodeJWT from 'jwt-decode';
-import { initializeApollo } from '../../apollo/client';
+import { createIsomorphicLink, initializeApollo } from '../../apollo/client';
 import { userVar } from '../../apollo/store';
 import { CustomJwtPayload } from '../types/customJwtPayload';
 import { sweetMixinErrorAlert } from '../sweetAlert';
@@ -22,6 +22,7 @@ export const logIn = async (nick: string, password: string): Promise<void> => {
 		if (jwtToken) {
 			updateStorage({ jwtToken });
 			updateUserInfo(jwtToken);
+			createIsomorphicLink();
 		}
 	} catch (err) {
 		console.warn('login err', err);
