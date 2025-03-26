@@ -62,45 +62,37 @@ const Chat = () => {
 	const socket = useReactiveVar(socketVar);
 
 	/** LIFECYCLES **/
-	// check here one more
 	useEffect(() => {
+		if (!socket) return;
+
 		socket.onmessage = (msg) => {
-			const data = JSON.parse(msg.data);
-			console.log('WebSocket message===: ', data);
+			try {
+				const data = JSON.parse(msg.data);
+				console.log('WebSocket message: ', data);
 
-			switch (data.event) {
-				case 'info':
-					const newInfo: InfoPayload = data;
-					setOnlineUsers(newInfo.totalClients);
-					break;
-				case 'getMessages':
-					console.log('datasssss:', data);
-					const list: MessagePayload[] = data.messages;
-					setMessagesList(list);
-
-					break;
-				case 'message':
-					console.log('message:', data);
-					setMessagesList((list) => [...list, data.text]);
-					break;
-				case 'sendMessage':
-					console.log('datasssss:', data);
-
-					const newMessage: MessagePayload = data.messages;
-					messagesList.push(newMessage);
-					setMessagesList([...messagesList]);
-					break;
-				case 'notification':
-					const newNotification: any[] = data.data;
-					console.log('newnot', newNotification);
-
-					const currentNotificationList = notificationListVar();
-					notificationListVar([...currentNotificationList, ...newNotification]);
-					notificationVar(notificationListVar().length);
-					break;
+				switch (data.event) {
+					case 'info':
+						setOnlineUsers(data.totalClients);
+						break;
+					case 'getMessages':
+						setMessagesList(data.list);
+						break;
+					case 'message':
+						// Faqat boshqa foydalanuvchilarning xabarlarini qo'shish
+						if (data.memberData?._id !== user?._id) {
+							setMessagesList((prevList) => [...prevList, data]);
+						}
+						break;
+				}
+			} catch (error) {
+				console.error('Error processing message:', error);
 			}
 		};
-	}, [socket, messagesList]);
+
+		return () => {
+			socket.onmessage = null;
+		};
+	}, [socket, user]);
 
 	useEffect(() => {
 		const handleMessage = (msg: MessageEvent) => {
@@ -204,14 +196,22 @@ const Chat = () => {
 		}
 	};
 
-	const onClickHandler = () => {
-		if (!messageInput) sweetErrorAlert(Messages.error4);
-		else if (socket) {
-			socket.send(JSON.stringify({ event: 'sendMessage', data: messageInput }));
-			console.log('Auth-:', messageInput);
-			setMessageInput('');
-		}
-	};
+const onClickHandler = () => {
+	if (!messageInput) sweetErrorAlert(Messages.error4);
+	else {
+		// Avval o'z UI'mizga qo'shamiz
+		const myMessage = {
+			event: 'message',
+			text: messageInput,
+			memberData: user,
+		};
+		setMessagesList((prevList) => [...prevList, myMessage]);
+
+		// Keyin serverga yuboramiz
+		socket.send(JSON.stringify({ event: 'message', data: messageInput }));
+		setMessageInput('');
+	}
+};
 
 	return (
 		<Stack className="chatting">

@@ -115,7 +115,7 @@ const Footer = () => {
 							<div>
 								<input type="text" placeholder={'Set Up Your Profile in Seconds'} />
 								<span>Subscribe</span>
-								<img src="img/icons/arrow.svg" alt="" style={{ marginLeft: '10px' }} />
+							
 							</div>
 						</Box>
 						<Box component={'div'} className={'bottom'}>

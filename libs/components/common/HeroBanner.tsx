@@ -10,18 +10,18 @@ const HeroBanner = () => {
 	const bannerData = [
 		{
 			id: 1,
-			title: 'CLASSIC\nDESIGNER SOFA',
+			title: 'CLASSIC\nKITCHEN',
 			image: '/img/banner/kitchen.jpg',
 		},
 		{
 			id: 2,
 			title: 'MODERN\nWOODEN TABLE',
-			image: '/img/banner/bad.jpg',
+			image: '/img/banner/dining.jpg',
 		},
 		{
 			id: 3,
 			title: 'ELEGANT\nBEDROOM SET',
-			image: '/img/banner/dining.jpg',
+			image: '/img/banner/bad.jpg',
 		},
 	];
 
