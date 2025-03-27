@@ -12,7 +12,7 @@ export enum NotificationType {
 }
 
 export enum NotificationStatus {
-	WAIT = 'WAIT',
+	UNREAD = 'UNREAD',
 	READ = 'READ',
 }
 

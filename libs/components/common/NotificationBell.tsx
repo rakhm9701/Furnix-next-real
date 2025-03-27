@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { Stack, Popover, Box, PopoverOrigin } from '@mui/material';
 import { formatDistanceToNow } from 'date-fns';
 import { NotificationType, NotificationStatus, Notification } from '../../types/notification';
 import { notificationListVar, notificationVar, userVar } from '../../../apollo/store';
-import { useMutation, useReactiveVar, useQuery } from '@apollo/client';
+import { useMutation, useReactiveVar } from '@apollo/client';
 import { READ_ALL_NOTIFICATION, READ_NOTIFICATION } from '../../../apollo/user/mutation';
-
 import { T } from '../../types/common';
-import { Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
-
-// MUI ikonkalarni import qilish
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import CommentIcon from '@mui/icons-material/Comment';
 
 const NotificationBell: React.FC = () => {
 	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -22,9 +17,7 @@ const NotificationBell: React.FC = () => {
 	const notificationList = useReactiveVar(notificationListVar);
 	const [readNotification] = useMutation(READ_NOTIFICATION);
 	const [allReadNotification] = useMutation(READ_ALL_NOTIFICATION);
-	const [isLoading, setIsLoading] = useState(false);
 
-	/** HANDLERS **/
 	const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
 		event.stopPropagation();
 		setAnchorEl(event.currentTarget);
@@ -38,51 +31,40 @@ const NotificationBell: React.FC = () => {
 		try {
 			if (!notificationId) return;
 			if (!user._id) throw new Error('LOGIN FIRST');
+			await readNotification({ variables: { input: notificationId } });
 
-			setIsLoading(true);
+			await Promise.all(
+				notificationList.map(async (ele, index) => {
+					if (ele._id === notificationId) {
+						notificationList.splice(index, 1);
+					}
+				}),
+			);
 
-			// Mutatsiyani bajarish
-			const { data } = await readNotification({
-				variables: { input: notificationId },
-				fetchPolicy: 'network-only',
-			});
-
-			if (data && data.notificationTargetProduct) {
-				await sweetTopSmallSuccessAlert('success', 800);
-			}
+			await notificationListVar(notificationList);
+			await notificationVar(notificationList.length);
+			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
-			console.error('ERROR, readNotificationHandler', err);
+			console.log('ERROR, readNotificationHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
-		} finally {
-			setIsLoading(false);
 		}
 	};
 
 	const allReadNotificationsHandler = async (user: T) => {
 		try {
 			if (!user._id) throw new Error('LOGIN FIRST');
-
-			setIsLoading(true);
-
-			// Mutatsiyani bajarish
-			const { data } = await allReadNotification({
-				variables: { input: user._id },
-				fetchPolicy: 'network-only',
+			await allReadNotification({
+				variables: { input: '67a3977eb27233bc805c06e9' },
 			});
 
-			if (data && data.notificationsTargetProduct) {
-				// Notifikatsiyalarni qayta yuklash
-
-				await sweetTopSmallSuccessAlert('success', 800);
-			}
+			await notificationListVar([]);
+			await notificationVar(0);
+			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
-			console.error('ERROR, allReadNotificationsHandler', err);
+			console.log('ERROR, allReadNotificationsHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
-		} finally {
-			setIsLoading(false);
 		}
 	};
-
 	const formatNotificationTime = (date: Date) => {
 		try {
 			return formatDistanceToNow(new Date(date), { addSuffix: true });
@@ -92,15 +74,19 @@ const NotificationBell: React.FC = () => {
 		}
 	};
 
-	// Ikonka renderini o'zgartirish - rasm o'rniga MUI ikonkalar
-	const getNotificationIcon = (type: NotificationType) => {
+	useEffect(() => {
+		console.log('notificaiton list', notificationList);
+		console.log('notificaitons', notifications);
+	}, [notificationList]);
+
+	const getNotificationIcon = (type: NotificationType): string => {
 		switch (type) {
 			case NotificationType.LIKE:
-				return <ThumbUpIcon fontSize="small" color="primary" />;
+				return '/img/icons/like.svg';
 			case NotificationType.COMMENT:
-				return <CommentIcon fontSize="small" color="primary" />;
+				return '/img/icons/review.svg';
 			default:
-				return <NotificationsIcon fontSize="small" color="primary" />;
+				return '/img/icons/room.svg';
 		}
 	};
 
@@ -123,8 +109,7 @@ const NotificationBell: React.FC = () => {
 				onClick={handleClick}
 				style={{ position: 'relative', cursor: 'pointer', marginLeft: '10px', display: 'flex' }}
 			>
-				{/* Rasm o'rniga MUI ikonka ishlatish */}
-				<NotificationsIcon style={{ width: 24, height: 24, color: 'white' }} />
+				<NotificationsIcon />
 				{notifications > 0 && (
 					<Box
 						sx={{
@@ -178,20 +163,19 @@ const NotificationBell: React.FC = () => {
 						<Box sx={{ fontWeight: 'bold' }}>Notifications</Box>
 						{notifications > 0 && (
 							<Box
-								onClick={() => !isLoading && allReadNotificationsHandler(user)}
+								onClick={() => allReadNotificationsHandler(user)}
 								sx={{
 									color: '#fc800a',
-									cursor: isLoading ? 'default' : 'pointer',
+									cursor: 'pointer',
 									fontSize: '14px',
-									opacity: isLoading ? 0.7 : 1,
 								}}
 							>
-								{isLoading ? 'Processing...' : 'Mark all as read'}
+								Mark all as read
 							</Box>
 						)}
 					</Box>
 
-				 {notificationList.length === 0 ? (
+					{notificationList.length === 0 ? (
 						<Box sx={{ textAlign: 'center', color: 'gray' }}>No notifications</Box>
 					) : (
 						notificationList.map((notification: Notification) => (
@@ -208,22 +192,26 @@ const NotificationBell: React.FC = () => {
 									'&:hover': { backgroundColor: '#f5f5f5' },
 								}}
 							>
-								{/* Rasm o'rniga MUI ikonka renderini ishlatish */}
-								<Box sx={{ mr: 1.5 }}>{getNotificationIcon(notification.notificationType)}</Box>
+								<Image
+									src={getNotificationIcon(notification.notificationType)}
+									alt="notification type"
+									width={24}
+									height={24}
+									style={{ marginRight: '10px' }}
+								/>
 								<Box sx={{ flex: 1 }}>
 									<Box sx={{ fontSize: '14px' }}>{notification.notificationDesc}</Box>
 									<Box sx={{ fontSize: '12px', color: 'gray' }}>{formatNotificationTime(notification.createdAt)}</Box>
 								</Box>
 								<Box
-									onClick={() => !isLoading && readNotificationHandler(user, notification._id)}
+									onClick={() => readNotificationHandler(user, notification._id)}
 									sx={{
 										color: '#fc800a',
-										cursor: isLoading ? 'default' : 'pointer',
+										cursor: 'pointer',
 										fontSize: '14px',
-										opacity: isLoading ? 0.7 : 1,
 									}}
 								>
-									{isLoading ? '...' : 'Read'}
+									Read
 								</Box>
 							</Box>
 						))
