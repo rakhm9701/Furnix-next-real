@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination } from 'swiper';
+import { Autoplay } from 'swiper';
 import TopProductCard from './TopProductCard';
 import { ProductsInquiry } from '../../types/product/product.input';
 import { Product } from '../../types/product/product';

@@ -5,10 +5,10 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { ProductCard } from '../mypage/ProductCard';
 import { Product } from '../../types/product/product';
 import { ProductsInquiry } from '../../types/product/product.input';
-import { T } from '../../types/common';
 import { useRouter } from 'next/router';
 import {  GET_PRODUCTS } from '../../../apollo/user/query';
 import { useQuery } from '@apollo/client';
+import { T } from '../../types/common';
 
 const MyProducts: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();

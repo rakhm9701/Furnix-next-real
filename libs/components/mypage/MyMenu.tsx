@@ -5,11 +5,9 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import Link from 'next/link';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import PortraitIcon from '@mui/icons-material/Portrait';
-import IconButton from '@mui/material/IconButton';
 import { REACT_APP_API_URL } from '../../config';
 import { logOut } from '../../auth';
-import { sweetConfirmAlert, sweetMixinErrorAlert } from '../../sweetAlert';
+import { sweetConfirmAlert } from '../../sweetAlert';
 
 const MyMenu = () => {
 	const device = useDeviceDetect();

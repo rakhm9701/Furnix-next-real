@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import React, {  useState } from 'react';
 import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import TopAgentCard from './TopAgentCard';
 import { Member } from '../../types/member/member';
 import { AgentsInquiry } from '../../types/member/member.input';
@@ -18,7 +16,6 @@ interface TopAgentsProps {
 const TopAgents = (props: TopAgentsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
-	const router = useRouter();
 	const [topAgents, setTopAgents] = useState<Member[]>([]);
 
 	/** APOLLO REQUESTS **/

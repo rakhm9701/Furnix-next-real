@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Box, Stack, Typography, Container, IconButton } from '@mui/material';
+import { Box, Typography, Container, IconButton } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';

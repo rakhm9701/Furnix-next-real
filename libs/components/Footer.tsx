@@ -6,10 +6,16 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import { Stack, Box } from '@mui/material';
 import moment from 'moment';
+import Link from 'next/link';
+import React from 'react';
 
 const Footer = () => {
 	const device = useDeviceDetect();
+	// const [anchorEl, setAnchorEl] = React.useState<any | HTMLElement>(null);
 
+	// const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+	// 	setAnchorEl(event.currentTarget);
+	// };
 	if (device == 'mobile') {
 		return (
 			<Stack className={'footer-container'}>
@@ -55,10 +61,10 @@ const Footer = () => {
 							</div>
 							<div>
 								<strong>Discover</strong>
-								<span>Seoul</span>
-								<span>Gyeongido</span>
-								<span>Busan</span>
-								<span>Jejudo</span>
+								<span>New York</span>
+								<span>Baltimore</span>
+								<span>Chicago</span>
+								<span>Jacksonville</span>
 							</div>
 						</Box>
 					</Stack>
@@ -114,40 +120,68 @@ const Footer = () => {
 							<span>SignIn and get discount for your first order! Also recieve updates, and more</span>
 							<div>
 								<input type="text" placeholder={'Set Up Your Profile in Seconds'} />
-								<span>Subscribe</span>
-							
+								<Link href={'/account/join'}>
+									<span>Subscribe</span>
+								</Link>
 							</div>
 						</Box>
 						<Box component={'div'} className={'bottom'}>
 							<div>
 								<strong>About Us</strong>
-								<span>About Us</span>
-								<span>Blog</span>
-								<span>Contact Us</span>
-								<span>Popular Question</span>
+								<Link href={'/about'} className="span-tag">
+									<span> {'About'} </span>
+								</Link>
+								<Link href={'/community'} className="span-tag">
+									<span> {'Blog'} </span>
+								</Link>
+								<Link href={'/cs'} className="span-tag">
+									<span> {'Contact Us'} </span>
+								</Link>
+								<Link href={'/cs'} className="span-tag">
+									<span> {'Popular Question'} </span>
+								</Link>
 							</div>
 							<div>
 								<strong>Popular Search</strong>
-								<span>King Size Beds</span>
-								<span>Dining Tables</span>
-								<span>Boucle Chairs</span>
-								<span>L Shaped Couch</span>
+								<Link href={'/product'} className="span-tag">
+									<span> {'King Size Beds'} </span>
+								</Link>
+								<Link href={'/product'} className="span-tag">
+									<span> {'Dining Tables'} </span>
+								</Link>
+								<Link href={'/product'} className="span-tag">
+									<span> {'Dining Tables'} </span>
+								</Link>
+								<Link href={'/product'} className="span-tag">
+									<span> {'L Shaped Couch'} </span>
+								</Link>
 							</div>
 							<div>
 								<strong>Quick Links</strong>
-								<span>Terms of Use</span>
-								<span>Privacy Policy</span>
-								<span>Pricing Plans</span>
-								<span>Our Services</span>
-								<span>Contact Support</span>
-								<span>FAQs</span>
+								<Link href={'/cs'} className="span-tag">
+									<span> {'Terms of Use'} </span>
+								</Link>
+								<Link href={'/about'} className="span-tag">
+									<span> {'Privacy Policy'} </span>
+								</Link>
+								<Link href={'/about'} className="span-tag">
+									<span> {'Pricing Plans'} </span>
+								</Link>
+								<Link href={'/about'} className="span-tag">
+									<span> {'Our Services'} </span>
+								</Link>
+								<Link href={'/cs'} className="span-tag">
+									<span> {'FAQs'} </span>
+								</Link>
 							</div>
 							<div>
 								<strong>Discover</strong>
-								<span>Seoul</span>
-								<span>Gyeongido</span>
-								<span>Busan</span>
-								<span>Jejudo</span>
+								<div className={'span-tag'}>
+									<span>Seoul</span>
+									<span>Gyeongido</span>
+									<span>Busan</span>
+									<span>Jejudo</span>
+								</div>
 							</div>
 						</Box>
 					</Stack>

@@ -1000,18 +1000,22 @@ body::-webkit-scrollbar {
 								line-height: normal;
 								text-transform: capitalize;
 							}
-
-							span {
-								margin-top: 25px;
-								color: #bdc3c7; /* Lighter gray color */
-								font-family: $font;
-								font-size: 14px;
-								font-style: normal;
-								font-weight: 400;
-								cursor: pointer;
-								&:hover {
-									color: #f6f6f6; /* Light gray on hover */
-									text-decoration-line: underline;
+							.span-tag {
+								span {
+									display: flex;
+									flex-direction: column;
+									justify-content: space-around;
+									margin-top: 25px;
+									color: #bdc3c7; /* Lighter gray color */
+									font-family: $font;
+									font-size: 14px;
+									font-style: normal;
+									font-weight: 400;
+									cursor: pointer;
+									&:hover {
+										color: #f6f6f6; /* Light gray on hover */
+										text-decoration-line: underline;
+									}
 								}
 							}
 						}
@@ -1044,9 +1048,17 @@ body::-webkit-scrollbar {
 					}
 				}
 				.right {
+					width: 350px;
 					display: flex;
 					flex-direction: row;
 					justify-content: space-between;
+					cursor: pointer;
+					img {
+						transition: transform 0.3s;
+						&:hover {
+							transform: scale(1.1);
+						}
+					}
 				}
 			}
 		}

@@ -196,22 +196,21 @@ const Chat = () => {
 		}
 	};
 
-const onClickHandler = () => {
-	if (!messageInput) sweetErrorAlert(Messages.error4);
-	else {
-		// Avval o'z UI'mizga qo'shamiz
-		const myMessage = {
-			event: 'message',
-			text: messageInput,
-			memberData: user,
-		};
-		setMessagesList((prevList) => [...prevList, myMessage]);
+	const onClickHandler = () => {
+		if (!messageInput) sweetErrorAlert(Messages.error4);
+		else {
+			const myMessage = {
+				event: 'message',
+				text: messageInput,
+				memberData: user,
+				timestamp: new Date(),
+			};
+			setMessagesList((prevList) => [...prevList, myMessage]);
 
-		// Keyin serverga yuboramiz
-		socket.send(JSON.stringify({ event: 'message', data: messageInput }));
-		setMessageInput('');
-	}
-};
+			socket.send(JSON.stringify({ event: 'message', data: messageInput }));
+			setMessageInput('');
+		}
+	};
 
 	return (
 		<Stack className="chatting">

@@ -9,8 +9,8 @@ import { REACT_APP_API_URL } from '../../config';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { userVar } from '../../../apollo/store';
-import { T } from '../../types/common';
 import { GET_MEMBER_FOLLOWERS } from '../../../apollo/user/query';
+import { T } from '../../types/common';
 
 interface MemberFollowsProps {
 	initialInput: FollowInquiry;

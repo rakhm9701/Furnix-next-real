@@ -2,6 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useState } from 'react';
 import { useRouter, withRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import { useCart } from '../context/useCart';
 import { getJwtToken, updateUserInfo } from '../auth';
 import { Stack, Box } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
@@ -17,7 +18,6 @@ import { logOut } from '../auth';
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../sweetAlert';
 import { Messages } from '../config';
 import NotificationBell from './common/NotificationBell';
-import { useCart } from '../context/useCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 

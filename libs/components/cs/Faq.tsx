@@ -1,4 +1,3 @@
-// components/Faq.tsx
 import React, { useState } from 'react';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import { AccordionDetails, Box, Typography } from '@mui/material';
