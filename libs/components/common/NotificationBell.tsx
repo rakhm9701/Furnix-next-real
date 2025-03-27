@@ -191,7 +191,7 @@ const NotificationBell: React.FC = () => {
 						)}
 					</Box>
 
-					{notificationList.length === 0 ? (
+				 {notificationList.length === 0 ? (
 						<Box sx={{ textAlign: 'center', color: 'gray' }}>No notifications</Box>
 					) : (
 						notificationList.map((notification: Notification) => (
