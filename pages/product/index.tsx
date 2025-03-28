@@ -239,7 +239,7 @@ const ProductList: NextPage = ({ initialInput, ...props }: any) => {
 								{products && products.length > 0 && (
 									<Stack className="total-result">
 										<Typography>
-											Total {total} propert{total > 1 ? 'ies' : 'y'} available
+											Total {total} product{total > 1 ? 's' : 'y'} available
 										</Typography>
 									</Stack>
 								)}
@@ -261,7 +261,7 @@ ProductList.defaultProps = {
 		search: {
 			pricesRange: {
 				start: 0,
-				end: 2000000,
+				end: 2000,
 			},
 		},
 	},

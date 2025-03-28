@@ -284,7 +284,223 @@
 							transform: scale(1);
 						}
 					}
+					.filter-main {
+						padding: 25px;
+						background-color: #fff;
+						border-radius: 16px;
+						box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+						width: 100%;
+						max-width: 320px;
 
+						.find-your-home {
+							margin-bottom: 30px;
+
+							.title-main {
+								font-size: 24px;
+								font-weight: 700;
+								color: grey;
+								margin-bottom: 18px;
+								letter-spacing: 0.3px;
+							}
+
+							.title {
+								font-size: 18px;
+								font-weight: 600;
+								color: #333;
+								margin-bottom: 16px;
+								padding-bottom: 8px;
+								border-bottom: 2px solid #f2f2f2;
+								position: relative;
+
+								&:after {
+									content: '';
+									position: absolute;
+									bottom: -2px;
+									left: 0;
+									width: 40px;
+									height: 2px;
+									background-color: grey;
+								}
+							}
+
+							.input-box {
+								position: relative;
+								display: flex;
+								align-items: center;
+								margin-bottom: 10px;
+
+								.search-input {
+									width: 100%;
+									height: 48px;
+									border-radius: 10px;
+									border: 1px solid #e6e6e6;
+									padding: 0 16px 0 42px;
+									font-size: 15px;
+									transition: all 0.2s ease;
+									background-color: #f9f9f9;
+
+									&:focus {
+										border-color: grey;
+										background-color: #fff;
+										box-shadow: 0 0 0 3px rgba(252, 128, 10, 0.1);
+										outline: none;
+									}
+
+									&::placeholder {
+										color: #aaa;
+									}
+								}
+
+								img {
+									position: absolute;
+									left: 14px;
+									width: 18px;
+									height: 18px;
+									opacity: 0.6;
+								}
+
+								svg {
+									cursor: pointer;
+									color: #aaa;
+									transition: all 0.2s ease;
+
+									&:hover {
+										color: grey;
+										transform: scale(1.1);
+									}
+								}
+							}
+
+							.product-location {
+								display: flex;
+								flex-direction: column;
+								overflow-y: auto;
+								transition: height 0.3s ease;
+								margin-bottom: 8px;
+								border-radius: 10px;
+								padding: 5px 0;
+
+								.input-box {
+									padding: 8px 12px;
+									border-radius: 8px;
+									margin-bottom: 2px;
+									transition: background-color 0.2s ease;
+
+									&:hover {
+										background-color: #f9f9f9;
+									}
+
+									.MuiCheckbox-root {
+										color: #bbb;
+										padding: 2px 8px 2px 2px;
+
+										&.Mui-checked {
+											color: grey;
+										}
+									}
+
+									.product-type,
+									.product_type {
+										font-size: 14px;
+										color: #444;
+										font-weight: 500;
+										margin-left: 4px;
+									}
+
+									label {
+										display: flex;
+										align-items: center;
+										width: 100%;
+										cursor: pointer;
+									}
+								}
+
+								&::-webkit-scrollbar {
+									width: 6px;
+								}
+
+								&::-webkit-scrollbar-track {
+									background: #f5f5f5;
+									border-radius: 10px;
+								}
+
+								&::-webkit-scrollbar-thumb {
+									background-color: #ddd;
+									border-radius: 10px;
+
+									&:hover {
+										background-color: #ccc;
+									}
+								}
+							}
+
+							.square-year-input {
+								display: flex;
+								// align-items: center;
+								height: 48px;
+								border-radius: 10px;
+								border: 1px solid #e6e6e6;
+								overflow: hidden;
+								background-color: #f9f9f9;
+
+								input {
+									flex: 1;
+									height: 100%;
+									border: none;
+									font-size: 12px;
+									outline: none;
+									text-align: center;
+									background-color: transparent;
+									color: #444;
+									font-weight: 400;
+
+									&::-webkit-inner-spin-button,
+									&::-webkit-outer-spin-button {
+										-webkit-appearance: none;
+
+									}
+
+									&:focus {
+										background-color: rgba(252, 128, 10, 0.04);
+									}
+								}
+
+								.central-divider {
+									width: 1px;
+									height: 65%;
+									background-color: #e0e0e0;
+								}
+							}
+						}
+					}
+
+					// Customize MUI Checkbox
+					:global {
+						.MuiCheckbox-root {
+							&.Mui-checked {
+								.MuiSvgIcon-root {
+									color: grey !important;
+								}
+							}
+						}
+
+						.MuiIconButton-root {
+							color: #999;
+
+							&:hover {
+								background-color: rgba(252, 128, 10, 0.08);
+							}
+						}
+					}
+
+					// Responsive
+					@media (max-width: 768px) {
+						.filter-main {
+							max-width: 100%;
+							padding: 20px;
+							border-radius: 12px;
+						}
+					}
 					.filter-main:hover {
 						box-shadow: 0 5px 15px rgba(24, 26, 32, 0.15);
 					}
