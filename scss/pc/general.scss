@@ -135,12 +135,13 @@
 	position: relative;
 	margin-right: 27px;
 	margin-bottom: 34px;
+	width: 233px;
+	height: 420px;
 	display: flex;
 	flex-direction: column;
-	transition: all 0.35s ease;
-	width: 233px;
-	background: white;
 	border: 1px solid #e0e0e0;
+	background: white;
+	transition: all 0.35s ease;
 
 	/* Rasm konteyner */
 	.agent-img {

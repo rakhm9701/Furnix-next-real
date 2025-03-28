@@ -13,7 +13,6 @@ import { GET_AGENTS } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { useMutation, useQuery } from '@apollo/client';
 import { LIKE_TARGET_MEMBER } from '../../apollo/user/mutation';
-import { Message } from '../../libs/enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { Messages } from '../../libs/config';
 
@@ -203,7 +202,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 
 						{agents.length !== 0 && (
 							<span>
-								Total {total} agent{total > 1 ? 's' : ''} available
+								Total {total} Agent{total > 1 ? 's' : ''} available
 							</span>
 						)}
 					</Stack>
