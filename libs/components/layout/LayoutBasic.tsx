@@ -29,15 +29,19 @@ const withLayoutBasic = (Component: any) => {
 			switch (router.pathname) {
 				case '/product':
 					desc = 'Home / Shop';
-					bgImage = '/img/banner/products.png';
+					bgImage = '/img/banner/products.jpg';
+					break;
+				case '/product/detail':
+					desc = 'Home / Shop';
+					bgImage = '/img/banner/products.jpg';
 					break;
 				case '/agent':
 					desc = 'Home / Agent';
-					bgImage = '/img/banner/agents.webp';
+					bgImage = '/img/banner/agent.jpg';
 					break;
 				case '/agent/detail':
 					desc = 'Home / Agent / Detail';
-					bgImage = '/img/banner/agents.webp';
+					bgImage = '/img/banner/agent.jpg';
 					break;
 				case '/mypage':
 					desc = 'Home / Myprofile';
@@ -45,11 +49,11 @@ const withLayoutBasic = (Component: any) => {
 					break;
 				case '/community':
 					desc = 'Home / Blog';
-					bgImage = '/img/banner/community.jpg';
+					bgImage = '/img/banner/blog.png';
 					break;
 				case '/community/detail':
 					desc = 'Home / Blog / Detail';
-					bgImage = '/img/banner/community.jpg';
+					bgImage = '/img/banner/blog.png';
 					break;
 				case '/cs':
 					desc = 'Home / Cs';
@@ -57,7 +61,7 @@ const withLayoutBasic = (Component: any) => {
 					break;
 				case '/account/join':
 					desc = 'Home / Signup | Login';
-					bgImage = '/img/banner/community.jpg';
+					bgImage = '/img/banner/blog.png';
 					setAuthHeader(true);
 					break;
 				case '/member':
@@ -66,7 +70,7 @@ const withLayoutBasic = (Component: any) => {
 					break;
 				case '/about':
 					desc = 'Home / About';
-					bgImage = '/img/banner/agent.webp';
+					bgImage = '/img/banner/agent.jpg';
 					break;
 				default:
 					break;

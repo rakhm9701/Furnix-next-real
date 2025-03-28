@@ -99,7 +99,7 @@
 								transition: border-color 0.3s;
 
 								&:focus {
-									border-color: #eb6753;
+									border-color: grey;
 									outline: none;
 									box-shadow: 0 0 0 2px rgba(235, 103, 83, 0.2);
 								}
@@ -140,7 +140,7 @@
 							margin-bottom: 20px;
 
 							a {
-								color: #eb6753;
+								color: grey;
 								text-decoration: none;
 								transition: opacity 0.2s;
 
@@ -154,7 +154,7 @@
 							width: 100%;
 							height: 55px;
 							border-radius: 10px;
-							background: #eb6753;
+							background: grey;
 							color: white;
 							font-size: 16px;
 							font-weight: 600;
@@ -189,7 +189,7 @@
 							color: #444;
 
 							b {
-								color: #eb6753;
+								color: grey;
 								margin-left: 5px;
 								font-size: 16px;
 								font-weight: 600;

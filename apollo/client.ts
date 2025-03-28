@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { ApolloClient, ApolloLink, InMemoryCache, split, from, NormalizedCacheObject } from '@apollo/client';
+import { ApolloClient, ApolloLink, InMemoryCache, split, from, NormalizedCacheObject, makeVar } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
@@ -7,8 +7,19 @@ import { onError } from '@apollo/client/link/error';
 import { getJwtToken } from '../libs/auth';
 import { TokenRefreshLink } from 'apollo-link-token-refresh';
 import { sweetErrorAlert } from '../libs/sweetAlert';
-import { socketVar, notificationVar, notificationListVar } from './store';
+
 let apolloClient: ApolloClient<NormalizedCacheObject>;
+
+// WebSocket obyektini saqlash uchun global o'zgaruvchi
+let globalWebSocket: WebSocket | null = null;
+
+// WebSocket holatini saqlash uchun reaktiv o'zgaruvchi
+export const socketStatusVar = makeVar<string>('disconnected'); // "connected", "disconnected", "error"
+
+// WebSocketga kirish uchun funksiya
+export function getWebSocket(): WebSocket | null {
+	return globalWebSocket;
+}
 
 function getHeaders() {
 	const headers = {} as HeadersInit;
@@ -35,10 +46,12 @@ class LoggingWebSocket {
 
 	constructor(url: string) {
 		this.socket = new WebSocket(`${url}?token=${getJwtToken()}`);
-		socketVar(this.socket);
+		// WebSocket obyektiga global kirish imkoniyatini yarating
+		globalWebSocket = this.socket;
 
 		this.socket.onopen = () => {
 			console.log(`WebSocket connection!`);
+			socketStatusVar('connected');
 		};
 
 		this.socket.onmessage = (msg) => {
@@ -47,6 +60,11 @@ class LoggingWebSocket {
 
 		this.socket.onerror = (error) => {
 			console.log(`WebSocket, error:`, error);
+			socketStatusVar('error');
+		};
+
+		this.socket.onclose = () => {
+			socketStatusVar('disconnected');
 		};
 	}
 
@@ -56,6 +74,8 @@ class LoggingWebSocket {
 
 	close() {
 		this.socket.close();
+		globalWebSocket = null;
+		socketStatusVar('disconnected');
 	}
 }
 
@@ -120,7 +140,12 @@ function createApolloClient() {
 	return new ApolloClient({
 		ssrMode: typeof window === 'undefined',
 		link: createIsomorphicLink(),
-		cache: new InMemoryCache(),
+		cache: new InMemoryCache({
+			// Bu yerda typePolicies qo'shish mumkin, agar kerak bo'lsa
+			typePolicies: {
+				// Muayyan typlar uchun maxsus qo'llanmalar
+			},
+		}),
 		resolvers: {},
 	});
 }

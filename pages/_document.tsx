@@ -13,8 +13,8 @@ export default function Document() {
 					name={'description'}
 					content={
 						'Buy and sell products anywhere anytime in the USA. Best Products at Best prices on furnix.uz | ' +
-						'Покупайте и продавайте недвижимость в любой точке Южной Кореи в любое время. Лучшая недвижимость по лучшим ценам на furnix.uz | ' +
-						'대한민국 언제 어디서나 부동산을 사고팔 수 있습니다. Furnix.uz에서 최적의 가격으로 최고의 부동산을 만나보세요'
+						'Покупайте и продавайте товары где угодно и когда угодно в США. Лучшие товары по лучшим ценам на furnix.uz | ' +
+						'미국 어디에서나 언제든지 제품을 사고 팔 수 있습니다. furnix.uz에서 최고의 가격으로 최고의 제품을 구매하세요'
 					}
 				/>
 			</Head>

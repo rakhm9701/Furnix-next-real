@@ -225,7 +225,9 @@ const Join: NextPage = () => {
 								)}
 							</Box>
 						</Stack>
-						<Stack className={'right'}></Stack>
+						<Stack className={'right'}>
+							<img src="/img/fiber/login.jpg" alt="" />
+						</Stack>
 					</Stack>
 				</Stack>
 			</Stack>

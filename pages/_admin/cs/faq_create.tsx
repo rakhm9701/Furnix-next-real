@@ -105,7 +105,7 @@ const FaqCreate: NextPage = () => {
 				<Stack spacing={3} sx={{ maxWidth: '800px' }}>
 					<FormControl fullWidth>
 						<Typography variant="subtitle1" sx={{ mb: 1 }}>
-							Content
+							Answer
 						</Typography>
 						<TextField
 							name="content"
@@ -130,7 +130,7 @@ const FaqCreate: NextPage = () => {
 
 					<FormControl fullWidth>
 						<Typography variant="subtitle1" sx={{ mb: 1 }}>
-							Title
+							Question
 						</Typography>
 						<TextField
 							name="title"

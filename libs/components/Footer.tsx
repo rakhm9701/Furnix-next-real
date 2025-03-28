@@ -26,11 +26,11 @@ const Footer = () => {
 						</Box>
 						<Box component={'div'} className={'footer-box'}>
 							<span>total free customer care</span>
-							<p>+82 10 4867 2909</p>
+							<p>(212) 555-7890</p>
 						</Box>
 						<Box component={'div'} className={'footer-box'}>
 							<span>nee live</span>
-							<p>+82 10 4867 2909</p>
+							<p>(212) 555-7890</p>
 							<span>Support?</span>
 						</Box>
 						<Box component={'div'} className={'footer-box'}>
@@ -88,7 +88,7 @@ const Footer = () => {
 						<Box component={'div'} className={'footer-box'}>
 							<Box className={'phone'}>
 								<img src="/img/icons/call.svg" alt="" />
-								<p>+82 10 8423 4884</p>
+								<p>(212) 555-7890</p>
 							</Box>
 						</Box>
 						<Box className={'footer-box'}>

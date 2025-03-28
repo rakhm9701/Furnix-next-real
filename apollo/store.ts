@@ -25,7 +25,7 @@ export const userVar = makeVar<CustomJwtPayload>({
 });
 
 //@ts-ignore
-export const socketVar = makeVar<WebSocket>()
+export const socketVar = makeVar<WebSocket>();
 
 export const notificationVar = makeVar<number>(0);
 export const notificationListVar = makeVar<any[]>([]);

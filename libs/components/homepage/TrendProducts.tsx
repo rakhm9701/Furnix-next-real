@@ -10,6 +10,7 @@ import { T } from '../../types/common';
 import { LIKE_TARGET_PRODUCT } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
+import Link from 'next/link';
 
 interface TrendProductsProps {
 	initialInput: ProductsInquiry;
@@ -95,7 +96,16 @@ const TrendProducts = (props: TrendProductsProps) => {
 							<span>Trend Products</span>
 							<p>Trend is based on likes</p>
 						</Box>
+						<Box className={'right'}>
+							<div className={'more-box'}>
+								<Link href={'/product'}>
+									<span>See all products</span>
+									<img src="/img/icons/rightup.svg" alt="" />
+								</Link>
+							</div>
+						</Box>
 					</Stack>
+
 					<Stack className={'card-box'}>
 						{displayProducts.length === 0 ? (
 							<Box component={'div'} className={'empty-list'}>

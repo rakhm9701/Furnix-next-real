@@ -110,9 +110,15 @@ const BlogComponent = () => {
 
 					{/* Right side content - Blog cards grid */}
 					<Box className="blog-right">
-						<Box className="blog-grid">
-							
-						</Box>
+						<Box className="blog-grid"></Box>
+					</Box>
+					<Box className={'right'}>
+						<div className={'more-box'}>
+							<Link href={'/community'}>
+								<span>See All Blogs</span>
+								<img src="/img/icons/rightup.svg" alt="" />
+							</Link>
+						</div>
 					</Box>
 				</Stack>
 			</Stack>
