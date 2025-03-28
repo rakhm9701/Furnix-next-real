@@ -177,10 +177,10 @@ const Footer = () => {
 							<div>
 								<strong>Discover</strong>
 								<div className={'span-tag'}>
-									<span>Seoul</span>
-									<span>Gyeongido</span>
-									<span>Busan</span>
-									<span>Jejudo</span>
+									<span>New York</span>
+									<span>Baltimore</span>
+									<span>Chicago</span>
+									<span>Jacksonville</span>
 								</div>
 							</div>
 						</Box>

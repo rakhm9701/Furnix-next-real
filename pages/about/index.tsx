@@ -151,7 +151,10 @@ const About: NextPage = () => {
 						</Box>
 						<Box className={'input'}>
 							<input type="text" placeholder="Text here..." style={{ padding: '30px' }}></input>
-							<button>Subscribe</button>
+
+							<Link href={'/account/join'}>
+								<button>Subscribe</button>
+							</Link>
 						</Box>
 					</Stack>
 					<Stack className={'right'}>

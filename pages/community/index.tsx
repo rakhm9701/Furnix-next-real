@@ -106,7 +106,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 	};
 
 	if (device === 'mobile') {
-		return <h1>COMMUNITY PAGE MOBILE</h1>;
+		return <h1>BLOG PAGE MOBILE</h1>;
 	} else {
 		return (
 			<div id="community-list-page">
@@ -117,7 +117,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 								<Stack className={'image-info'}>
 									<img src={'/img/logo/F-logo.jpg'} />
 									<Stack className={'community-name'}>
-										<Typography className={'name'}>Furnix Community</Typography>
+										<Typography className={'name'}>Furnix Blog</Typography>
 									</Stack>
 								</Stack>
 
@@ -131,12 +131,12 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 								>
 									<Tab
 										value={'FREE'}
-										label={'Free Board'}
+										label={'Free'}
 										className={`tab-button ${searchCommunity.search.articleCategory == 'FREE' ? 'active' : ''}`}
 									/>
 									<Tab
 										value={'RECOMMEND'}
-										label={'Recommendation'}
+										label={'Recommend'}
 										className={`tab-button ${searchCommunity.search.articleCategory == 'RECOMMEND' ? 'active' : ''}`}
 									/>
 									<Tab

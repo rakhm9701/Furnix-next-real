@@ -175,7 +175,7 @@ const Top = () => {
 					<div> {t('Agents')} </div>
 				</Link>
 				<Link href={'/community?articleCategory=FREE'}>
-					<div> {t('Community')} </div>
+					<div> {t('Blog')} </div>
 				</Link>
 				<Link href={'/cs'}>
 					<div> {t('CS')} </div>
@@ -198,13 +198,13 @@ const Top = () => {
 								<div>{t('Home')}</div>
 							</Link>
 							<Link href={'/product'}>
-								<div>{t('Products')}</div>
+								<div>{t('Shop')}</div>
 							</Link>
 							<Link href={'/agent'}>
 								<div> {t('Agents')} </div>
 							</Link>
 							<Link href={'/community?articleCategory=FREE'}>
-								<div> {t('Community')} </div>
+								<div> {t('Blog')} </div>
 							</Link>
 							{user?._id && (
 								<Link href={'/mypage'}>
