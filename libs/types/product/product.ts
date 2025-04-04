@@ -12,6 +12,7 @@ export interface TotalCounter {
 }
 
 export interface Product {
+	id: any;
 	_id: string;
 	productType: ProductType;
 	productStatus: ProductStatus;

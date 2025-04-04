@@ -112,6 +112,7 @@ const NotificationBell: React.FC = () => {
 				<NotificationsIcon />
 				{notifications > 0 && (
 					<Box
+						component="div"
 						sx={{
 							position: 'absolute',
 							top: -2,
@@ -151,8 +152,9 @@ const NotificationBell: React.FC = () => {
 					},
 				}}
 			>
-				<Box sx={{ width: 350, maxHeight: 400, overflow: 'auto', p: 2 }}>
+				<Box sx={{ width: 350, maxHeight: 400, overflow: 'auto', p: 2 }} component="div">
 					<Box
+						component="div"
 						sx={{
 							display: 'flex',
 							justifyContent: 'space-between',
@@ -160,9 +162,12 @@ const NotificationBell: React.FC = () => {
 							mb: 2,
 						}}
 					>
-						<Box sx={{ fontWeight: 'bold' }}>Notifications</Box>
+						<Box component="div" sx={{ fontWeight: 'bold' }}>
+							Notifications
+						</Box>
 						{notifications > 0 && (
 							<Box
+								component="div"
 								onClick={() => allReadNotificationsHandler(user)}
 								sx={{
 									color: '#fc800a',
@@ -176,10 +181,13 @@ const NotificationBell: React.FC = () => {
 					</Box>
 
 					{notificationList.length === 0 ? (
-						<Box sx={{ textAlign: 'center', color: 'gray' }}>No notifications</Box>
+						<Box sx={{ textAlign: 'center', color: 'gray' }} component="div">
+							No notifications
+						</Box>
 					) : (
 						notificationList.map((notification: Notification) => (
 							<Box
+								component="div"
 								key={notification._id}
 								sx={{
 									display: 'flex',
@@ -199,11 +207,16 @@ const NotificationBell: React.FC = () => {
 									height={24}
 									style={{ marginRight: '10px' }}
 								/>
-								<Box sx={{ flex: 1 }}>
-									<Box sx={{ fontSize: '14px' }}>{notification.notificationDesc}</Box>
-									<Box sx={{ fontSize: '12px', color: 'gray' }}>{formatNotificationTime(notification.createdAt)}</Box>
+								<Box sx={{ flex: 1 }} component="div">
+									<Box sx={{ fontSize: '14px' }} component="div">
+										{notification.notificationDesc}{' '}
+									</Box>
+									<Box sx={{ fontSize: '12px', color: 'gray' }} component="div">
+										{formatNotificationTime(notification.createdAt)}
+									</Box>
 								</Box>
 								<Box
+									component="div"
 									onClick={() => readNotificationHandler(user, notification._id)}
 									sx={{
 										color: '#fc800a',

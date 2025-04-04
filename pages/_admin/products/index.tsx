@@ -101,7 +101,7 @@ const AdminProducts: NextPage = ({ initialInquiry, ...props }: any) => {
 
 	const removeProductHandler = async (id: string) => {
 		try {
-			if (await sweetConfirmAlert('Are you sure to remove?')) {
+			if (await sweetConfirmAlert('Are you sure to remove?', true)) {
 				await removeProductByAdmin({
 					variables: {
 						input: id,

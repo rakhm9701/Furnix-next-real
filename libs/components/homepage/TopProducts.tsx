@@ -95,7 +95,7 @@ const TopProducts = (props: TopProductsProps) => {
 							<h2 className="section-title">New Products</h2>
 							<p className="section-subtitle">Discover our latest furniture collection</p>
 						</Box>
-						<Box className={'right'}>
+						<Box className={'right'} component="div">
 							<div className={'more-box'}>
 								<Link href={'/product'}>
 									<span>See all products</span>
@@ -131,4 +131,3 @@ TopProducts.defaultProps = {
 };
 
 export default TopProducts;
-

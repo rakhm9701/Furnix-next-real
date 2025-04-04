@@ -31,7 +31,7 @@ export const sweetContactAlert = async (msg: string, duration: number = 10000) =
 	}).then();
 };
 
-export const sweetConfirmAlert = (msg: string) => {
+export const sweetConfirmAlert = (msg: string, p0: boolean) => {
 	return new Promise(async (resolve, reject) => {
 		await Swal.fire({
 			icon: 'question',

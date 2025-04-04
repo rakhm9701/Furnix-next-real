@@ -86,19 +86,19 @@ const Footer = () => {
 							<span>✔️ Best prices, best furniture!</span>
 						</Box>
 						<Box component={'div'} className={'footer-box'}>
-							<Box className={'phone'}>
+							<Box className={'phone'} component="div">
 								<img src="/img/icons/call.svg" alt="" />
 								<p>(212) 555-7890</p>
 							</Box>
 						</Box>
-						<Box className={'footer-box'}>
-							<Box className={'phone'}>
+						<Box className={'footer-box'} component="div">
+							<Box className={'phone'} component="div">
 								<img src="/img/icons/gmail.svg" alt="" />
 								<p>furnix@gmail.com</p>
 							</Box>
 						</Box>
 						<Box component={'div'} className={'footer-box'}>
-							<Box className={'phone'}>
+							<Box className={'phone'} component="div">
 								<img src="/img/icons/location-dot.svg" alt="" />
 								<p>350 5th Avenue, New York, NY 10118</p>
 							</Box>
@@ -187,11 +187,11 @@ const Footer = () => {
 					</Stack>
 				</Stack>
 				<Stack className={'second'}>
-					<Box className={'left'}>
-						<span>© Furnix - All rights reserved. Furnix {moment().year()}</span>
+					<Box className={'left'} component="div">
+						<span>Furnix - All rights reserved. Furnix {moment().year()}</span>
 						<span>Privacy · Terms · Sitemap</span>
 					</Box>
-					<Box className={'right'}>
+					<Box className={'right'} component="div">
 						<img src="/img/icons/cards/googlepay.svg" alt="" />
 						<img src="/img/icons/cards/applepay.svg" alt="" />
 						<img src="/img/icons/cards/klarna.svg" alt="" />

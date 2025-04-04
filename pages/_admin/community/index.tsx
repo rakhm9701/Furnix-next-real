@@ -378,7 +378,7 @@ const AdminCommunity: NextPage = ({ initialInquiry, ...props }: any) => {
 
 	const removeArticleHandler = async (id: string) => {
 		try {
-			if (await sweetConfirmAlert('Are you sure to remove?')) {
+			if (await sweetConfirmAlert('Are you sure to remove?', true)) {
 				await removeBoardArticleByAdmin({
 					variables: {
 						input: id,

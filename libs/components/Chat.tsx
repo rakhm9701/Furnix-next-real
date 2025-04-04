@@ -199,14 +199,16 @@ const Chat = () => {
 	const onClickHandler = () => {
 		if (!messageInput) sweetErrorAlert(Messages.error4);
 		else {
-			const myMessage = {
+			// Bu qatorni o'zgartiring
+			const myMessage: MessagePayload = {
+				// Tipni aniq ko'rsatish
 				event: 'message',
 				text: messageInput,
-				memberData: user,
-				timestamp: new Date(),
+				memberData: user as Member, // Type assertion
+				timestamp: new Date().toISOString(), // Date o'rniga ISO string
 			};
-			setMessagesList((prevList) => [...prevList, myMessage]);
 
+			setMessagesList((prevList) => [...prevList, myMessage]); // Type assertionsiz
 			socket.send(JSON.stringify({ event: 'message', data: messageInput }));
 			setMessageInput('');
 		}

@@ -17,13 +17,14 @@ const MyMenu = () => {
 	const user = useReactiveVar(userVar);
 
 	/** HANDLERS **/
-	const logoutHandler = async () => {
-		try {
-			if (await sweetConfirmAlert('Do you want to logout?')) logOut();
-		} catch (err: any) {
-			console.log('ERROR, logoutHandler:', err.message);
-		}
-	};
+	  const logoutHandler = async () => {
+			try {
+				if (await sweetConfirmAlert('Do you want to logout?', true)) logOut();
+			} catch (err: any) {
+				console.log('ERROR, logoutHandler:', err.message);
+			}
+		};
+
 
 	if (device === 'mobile') {
 		return <div>MY MENU</div>;

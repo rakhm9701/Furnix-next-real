@@ -51,7 +51,7 @@ const MyProducts: NextPage = ({ initialInput, ...props }: any) => {
 
 	const deleteProductHandler = async (id: string) => {
 		try {
-			if (await sweetConfirmAlert('are you sure to delete this product?')) {
+			if (await sweetConfirmAlert('are you sure to delete this product?', true)) {
 				await updateProduct({
 					variables: {
 						input: {
@@ -70,7 +70,7 @@ const MyProducts: NextPage = ({ initialInput, ...props }: any) => {
 
 	const updateProductHandler = async (status: string, id: string) => {
 		try {
-			if (await sweetConfirmAlert(`are you sure change to ${status} status?`)) {
+			if (await sweetConfirmAlert(`are you sure change to ${status} status?`, true)) {
 				await updateProduct({
 					variables: {
 						input: {

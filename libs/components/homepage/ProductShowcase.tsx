@@ -3,18 +3,21 @@ import { Box, Typography, Container, IconButton } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper';
+import { Product } from '../../types/product/product';
+import { Swiper as SwiperType } from 'swiper';
+
 import 'swiper/css';
 import 'swiper/css/pagination';
 
 const ProductInfo = ({ product, onClose }: any) => {
 	return (
-		<Box className="product-info-card">
-			<Box className="product-info-content">
+		<Box className="product-info-card" component="div">
+			<Box className="product-info-content" component="div">
 				<Typography className="product-title">{product.name}</Typography>
 				<Typography className="product-description">{product.description}</Typography>
-				<Box className="price-container">
+				<Box className="price-container" component="div">
 					<Typography className="current-price">${product.price}</Typography>
 					{product.originalPrice && <Typography className="original-price">${product.originalPrice}</Typography>}
 				</Box>
@@ -24,9 +27,10 @@ const ProductInfo = ({ product, onClose }: any) => {
 };
 
 const ProductShowcase = () => {
-	const [activeProduct, setActiveProduct] = useState(null);
+
+	const [activeProduct, setActiveProduct] = useState<Product | null>(null);
+    const swiperRef = useRef<SwiperRef>(null);
 	const [currentSlide, setCurrentSlide] = useState(0);
-	const swiperRef = useRef(null);
 
 	const scenes = [
 		{
@@ -121,9 +125,9 @@ const ProductShowcase = () => {
 	// Ekran o'lchamiga qarab product-info-card pozitsiyasini to'g'irlash
 	useEffect(() => {
 		const handleResize = () => {
-			// Ekran o'lchami o'zgarganda active product o'rni tuzatiladi
 			if (activeProduct) {
-				setActiveProduct({ ...activeProduct });
+				// Aniq tip bilan qayta o'rnatish
+				setActiveProduct((prevProduct) => (prevProduct ? { ...prevProduct } : null));
 			}
 		};
 
@@ -132,24 +136,25 @@ const ProductShowcase = () => {
 			window.removeEventListener('resize', handleResize);
 		};
 	}, [activeProduct]);
-
 	const handleHotspotClick = (product: any) => {
 		setActiveProduct(activeProduct && activeProduct.id === product.id ? null : product);
 	};
 
-	const handlePrevSlide = () => {
-		if (swiperRef.current && swiperRef.current.swiper) {
-			swiperRef.current.swiper.slidePrev();
-		}
-		setActiveProduct(null);
-	};
+    const handlePrevSlide = () => {
+			if (swiperRef.current) {
+				const swiper: SwiperType = swiperRef.current.swiper;
+				swiper.slidePrev();
+			}
+			setActiveProduct(null);
+		};
 
-	const handleNextSlide = () => {
-		if (swiperRef.current && swiperRef.current.swiper) {
-			swiperRef.current.swiper.slideNext();
-		}
-		setActiveProduct(null);
-	};
+		const handleNextSlide = () => {
+			if (swiperRef.current) {
+				const swiper: SwiperType = swiperRef.current.swiper;
+				swiper.slideNext();
+			}
+			setActiveProduct(null);
+		};
 
 	// Product info card pozitsiyasini ekran chetlaridan chiqib ketmasligi uchun to'g'irlash
 	const adjustProductInfoPosition = (product: any) => {
@@ -174,7 +179,7 @@ const ProductShowcase = () => {
 	};
 
 	return (
-		<Box className="product-showcase">
+		<Box className="product-showcase" component="div">
 			<Container maxWidth="xl" className="showcase-container">
 				<Swiper
 					ref={swiperRef}
@@ -198,11 +203,12 @@ const ProductShowcase = () => {
 				>
 					{scenes.map((scene) => (
 						<SwiperSlide key={scene.id} className="scene-slide">
-							<Box className="scene-container">
+							<Box className="scene-container" component="div">
 								<img src={scene.image} alt={`Room Scene ${scene.id}`} className="scene-image" loading="lazy" />
 
 								{scene.products.map((product) => (
 									<Box
+										component="div"
 										key={product.id}
 										className={`hotspot ${activeProduct && activeProduct.id === product.id ? 'active' : ''}`}
 										style={{
@@ -229,10 +235,10 @@ const ProductShowcase = () => {
 					))}
 				</Swiper>
 
-				<Box className="navigation-controls">
-					<Box className="swiper-pagination pagination-dots"></Box>
+				<Box className="navigation-controls" component="div">
+					<Box className="swiper-pagination pagination-dots" component="div"></Box>
 
-					<Box className="navigation-arrows">
+					<Box className="navigation-arrows" component="div">
 						<IconButton
 							className="nav-arrow prev"
 							onClick={handlePrevSlide}
