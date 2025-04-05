@@ -44,9 +44,9 @@ const HeroBanner = () => {
 
 	return (
 		<Stack className={`sofa-hero-banner slide-${activeSlide}`}>
-			<Box className="banner-container">
-				<Box className="content-area">
-					<Box className="text-content">
+			<Box className="banner-container" component={'div'}>
+				<Box className="content-area" component={'div'}>
+					<Box className="text-content" component={'div'}>
 						<Typography variant="h1" className="main-title">
 							{bannerData[activeSlide].title}
 						</Typography>
@@ -60,6 +60,7 @@ const HeroBanner = () => {
 				{/* All banner images */}
 				{bannerData.map((banner, index) => (
 					<Box
+						component={'div'}
 						key={banner.id}
 						className={`furniture-image ${index === activeSlide ? 'active' : ''}`}
 						style={{ backgroundImage: `url(${banner.image})` }}
@@ -67,9 +68,10 @@ const HeroBanner = () => {
 				))}
 
 				{/* Navigation dots */}
-				<Box className="navigation-dots">
+				<Box className="navigation-dots" component={'div'}>
 					{bannerData.map((_, index) => (
 						<Box
+							component={'div'}
 							key={index}
 							className={`dot ${index === activeSlide ? 'active' : ''}`}
 							onClick={() => handleDotClick(index)}
