@@ -33,10 +33,10 @@ const About: NextPage = () => {
 					<Stack className={'headline'}>Shaping the Future</Stack>
 					<Stack className={'box-wrap'}>
 						<Stack className={'box'}>
-							<Box className={'left'}>
+							<Box className={'left'} component="div">
 								<img src="/img/icons/Icon_box.svg" alt="" />
 							</Box>
-							<Box className={'right'}>
+							<Box className={'right'} component="div">
 								<h3>Premium Materials</h3>
 								<span>
 									High-quality materials like solid wood, genuine leather, and durable upholstery for long-lasting
@@ -44,11 +44,11 @@ const About: NextPage = () => {
 								</span>
 							</Box>
 						</Stack>
-						<Stack className={'box'}>
-							<Box className={'left'}>
+						<Stack className={'box'} component="div">
+							<Box className={'left'} component="div">
 								<img src="/img/icons/Icon_custom.svg" alt="" />
 							</Box>
-							<Box className={'right'}>
+							<Box className={'right'} component="div">
 								<h3>Customizable Finishes</h3>
 								<span>
 									Extensive variety of finishes, stains, and colors for seamless furniture-to-decor coordination
@@ -56,10 +56,10 @@ const About: NextPage = () => {
 							</Box>
 						</Stack>
 						<Stack className={'box'}>
-							<Box className={'left'}>
+							<Box className={'left'} component="div">
 								<img src="/img/icons/Icon_resistant.svg" alt="" />
 							</Box>
-							<Box className={'right'}>
+							<Box className={'right'} component="div">
 								<h3>Texture and Comfort</h3>
 								<span>
 									Highlight the texture, comfort, and tactile qualities of materials, especially for upholstery espe
@@ -67,10 +67,10 @@ const About: NextPage = () => {
 							</Box>
 						</Stack>
 						<Stack className={'box'}>
-							<Box className={'left'}>
+							<Box className={'left'} component="div">
 								<img src="/img/icons/Icon_safety.svg" alt="" />
 							</Box>
-							<Box className={'right'}>
+							<Box className={'right'} component="div">
 								<h3>Safety Standards</h3>
 								<span>
 									Highlight compliance with safety standards, especially for child-related products or specific safety
@@ -79,10 +79,10 @@ const About: NextPage = () => {
 							</Box>
 						</Stack>
 						<Stack className={'box'}>
-							<Box className={'left'}>
+							<Box className={'left'} component="div">
 								<img src="/img/icons/Icon_allergic.svg" alt="" />
 							</Box>
-							<Box className={'right'}>
+							<Box className={'right'} component="div">
 								<h3>Low Allergenic</h3>
 								<span>
 									Note if materials are hypoallergenic, promoting a healthier environment for those with allergies
@@ -90,10 +90,10 @@ const About: NextPage = () => {
 							</Box>
 						</Stack>
 						<Stack className={'box'}>
-							<Box className={'left'}>
+							<Box className={'left'} component="div">
 								<img src="/img/icons/Icon_box.svg" alt="" />
 							</Box>
-							<Box className={'right'}>
+							<Box className={'right'} component="div">
 								<h3>Delivery and Assembly</h3>
 								<span>
 									Provide convenient delivery and assembly options to ensure a hassle-free experience for customers
@@ -117,31 +117,48 @@ const About: NextPage = () => {
 					</Box>
 				</Stack>
 				<Stack className={'consumer'}>
-					<Box className={'headline'}>A Growing Customer Community</Box>
+					<Box className={'headline'} component="div">
+						A Growing Customer Community
+					</Box>
 					<Stack className={'number'}>
 						<Stack className={'top'}>
-							<Box className={'box'}>biggest</Box>
-							<Box className={'box'}>20 000</Box>
-							<Box className={'box'}>1.8 Million</Box>
+							<Box className={'box'} component="div">
+								biggest
+							</Box>
+							<Box className={'box'} component="div">
+								20 000
+							</Box>
+							<Box className={'box'} component="div">
+								1.8 Million
+							</Box>
 						</Stack>
 						<Stack className={'divider-box'}>
-							<Box className={'divider'}></Box>
-							<Box className={'divider'}></Box>
-							<Box className={'divider'}></Box>
+							<Box className={'divider'} component="div"></Box>
+							<Box className={'divider'} component="div"></Box>
+							<Box className={'divider'} component="div"></Box>
 						</Stack>
 						<Stack className={'butt'}>
-							<Box className={'text'}>One of the biggest players in the home retail industry</Box>
-							<Box className={'text'}>Offering products for all your home requirements</Box>
-							<Box className={'text'}>Continuously growing with an ever-expanding customer base</Box>
+							<Box className={'text'} component="div">
+								One of the biggest players in the home retail industry
+							</Box>
+							<Box className={'text'} component="div">
+								Offering products for all your home requirements
+							</Box>
+							<Box className={'text'} component="div">
+								Continuously growing with an ever-expanding customer base
+							</Box>
 						</Stack>
 					</Stack>
-					<Stack className={'img'}>
+					<Stack className={'img'} component="div">
 						<img src="/img/fiber/about3.jpg" alt="" />
 					</Stack>
 				</Stack>
 				<Stack className={'fabric'}>
 					<Stack className={'left'}>
-						<Box className={'headline'}> 120+ Fabric for Your Custom Furniture</Box>
+						<Box className={'headline'} component="div">
+
+							120+ Fabric for Your Custom Furniture
+						</Box>
 						<Box className={'text'} component="div">
 							<strong>Get Free Swatches</strong>
 							<span>
@@ -162,32 +179,34 @@ const About: NextPage = () => {
 					</Stack>
 				</Stack>
 				<Stack className={'store'}>
-					<Box className={'headline'}>Visit Our Store</Box>
+					<Box className={'headline'} component="div">
+						Visit Our Store
+					</Box>
 					<Stack className={'main-box'}>
-						<Box className={'card'}>
+						<Box className={'card'} component="div">
 							<img src="/img/fiber/about5.jpg" alt="" />
-							<Box className={'text'}>
+							<Box className={'text'} component="div">
 								<strong>Furnix House NY</strong>
 								<span>21 Country Route 3/6, New York, wv, 26101</span>
 							</Box>
 						</Box>
-						<Box className={'card'}>
+						<Box className={'card'} component="div">
 							<img src="/img/fiber/about6.jpg" alt="" />
-							<Box className={'text'}>
+							<Box className={'text'} component="div">
 								<strong>Furnix house Baltimore</strong>
 								<span>14 pelham Road, Baltimore, nh, 3051</span>
 							</Box>
 						</Box>
-						<Box className={'card'}>
+						<Box className={'card'} component="div">
 							<img src="/img/fiber/about7.jpg" alt="" />
-							<Box className={'text'}>
+							<Box className={'text'} component="div">
 								<strong>Furnix House Chicago</strong>
 								<span>3 SW Montclair Street, Chicago, or, 93828</span>
 							</Box>
 						</Box>
-						<Box className={'card'}>
+						<Box className={'card'} component="div">
 							<img src="/img/fiber/about8.jpg" alt="" />
-							<Box className={'text'}>
+							<Box className={'text'} component="div">
 								<strong>Furnix House Jacksonville</strong>
 								<span>13 Lamar Road, Jacksonwile, al, 36445</span>
 							</Box>
