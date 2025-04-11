@@ -103,16 +103,16 @@ const About: NextPage = () => {
 					</Stack>
 				</Stack>
 				<Stack className={'picture'}>
-					<Box className={'img-box'}>
+					<Box className={'img-box'} components="div">
 						<img src="/img/product/glass-lamp.jpg" alt="" />
 					</Box>
-					<Box className={'img-box'}>
+					<Box className={'img-box'} components="div">
 						<img src="/img/product/dresser.jpg" alt="" />
 					</Box>
-					<Box className={'img-box'}>
+					<Box className={'img-box'} components="div">
 						<img src="/img/product/lamp.jpg" alt="" />
 					</Box>
-					<Box className={'img-box'}>
+					<Box className={'img-box'} components="div">
 						<img src="/img/product/pillow2.jpg" alt="" />
 					</Box>
 				</Stack>
@@ -142,14 +142,14 @@ const About: NextPage = () => {
 				<Stack className={'fabric'}>
 					<Stack className={'left'}>
 						<Box className={'headline'}> 120+ Fabric for Your Custom Furniture</Box>
-						<Box className={'text'}>
+						<Box className={'text'} components="div">
 							<strong>Get Free Swatches</strong>
 							<span>
 								Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Ut enim ad
 								minim veniam, quis nostrud exercitation ullamco laboris
 							</span>
 						</Box>
-						<Box className={'input'}>
+						<Box className={'input'} components="div">
 							<input type="text" placeholder="Text here..." style={{ padding: '30px' }}></input>
 
 							<Link href={'/account/join'}>
