@@ -49,7 +49,6 @@ const CommunityCard = (props: CommunityCardProps) => {
 	} else {
 		return (
 			<Stack
-				sx={{ width: size === 'small' ? '285px' : '300px' }}
 				className="community-general-card-config"
 				onClick={(e: any) => chooseArticleHandler(e, boardArticle)}
 			>
