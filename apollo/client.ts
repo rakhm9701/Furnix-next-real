@@ -94,12 +94,12 @@ export function createIsomorphicLink() {
 
 		// @ts-ignore
 		const link = new createUploadLink({
-			uri: process.env.REACT_APP_API_GRAPHQL_URL,
+			uri: process.env.REACT_APP_API_GRAPHQL_URL ?? 'http://147.93.103.154:5001/graphql',
 		});
 
 		/* WEBSOCKET SUBSCRIPTION LINK */
 		const wsLink = new WebSocketLink({
-			uri: process.env.REACT_APP_API_WS ?? 'ws://127.0.0.1:3007',
+			uri: process.env.REACT_APP_API_WS ?? 'ws://147.93.103.154:5001',
 			options: {
 				reconnect: false,
 				timeout: 30000,
