@@ -73,17 +73,16 @@
 		}
 
 		.article-list-box {
-			width: 500px;
+			width: 450px;
 			height: auto;
 			display: flex;
 			flex-direction: row;
-			justify-content: center;
+			// justify-content: center;
 			align-items: center;
 			flex-wrap: wrap;
 			gap: 25px;
 			margin-top: 55px;
 			margin-bottom: 87px;
-			margin-right: 200px;
 
 			.no-data {
 				display: flex;
