@@ -118,11 +118,11 @@ const CommunityComponent = () => {
 
 					{/* Right side content - Blog cards grid */}
 					<Box className="blog-right" component="div">
-						<Box className="blog-grid"></Box>
+						<Stack className="blog-grid" ></Stack>
 					</Box>
 					<Box className={'right'} component="div">
 						<div className={'more-box'}>
-							<Link href={'/community'}>
+							<Link href={'/community'} >
 								<span>See All Communitys</span>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</Link>
