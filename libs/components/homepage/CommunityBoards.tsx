@@ -83,7 +83,7 @@ const CommunityComponent = () => {
 			<Stack className="blog-container">
 				<Stack className="blog-content" direction="row">
 					{/* Left side content */}
-					<Box className="blog-left">
+					<Box className="blog-left" component="div">
 						<Typography variant="h1" className="main-heading">
 							Transforming Spaces with Our Community
 						</Typography>
@@ -92,27 +92,35 @@ const CommunityComponent = () => {
 							inspiration, and the latest in home decor to elevate your living spaces
 						</Typography>
 
-						<Box className="tag-container">
+						<Box className="tag-container" component="div">
 							<Link href={'/community?articleCategory=HUMOR'}>
-								<Box className="tag">HUMUR</Box>
+								<Box className="tag" component="div">
+									HUMUR
+								</Box>
 							</Link>
 							<Link href={'/community?articleCategory=RECOMMEND'}>
-								<Box className="tag">RECOMMENDED</Box>
+								<Box className="tag" component="div">
+									RECOMMENDED
+								</Box>
 							</Link>
 							<Link href={'/community?articleCategory=NEWS'}>
-								<Box className="tag">NEWS</Box>
+								<Box className="tag" component="div">
+									NEWS
+								</Box>
 							</Link>
 							<Link href={'/community?articleCategory=FREE'}>
-								<Box className="tag">FREE BOARD</Box>
+								<Box className="tag" component="div">
+									FREE BOARD
+								</Box>
 							</Link>
 						</Box>
 					</Box>
 
 					{/* Right side content - Blog cards grid */}
-					<Box className="blog-right">
+					<Box className="blog-right" component="div">
 						<Box className="blog-grid"></Box>
 					</Box>
-					<Box className={'right'}>
+					<Box className={'right'} component="div">
 						<div className={'more-box'}>
 							<Link href={'/community'}>
 								<span>See All Communitys</span>
