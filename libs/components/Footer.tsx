@@ -132,7 +132,7 @@ const Footer = () => {
 									<span> {'About'} </span>
 								</Link>
 								<Link href={'/community'} className="span-tag">
-									<span> {'Blog'} </span>
+									<span> {'Community'} </span>
 								</Link>
 								<Link href={'/cs'} className="span-tag">
 									<span> {'Contact Us'} </span>

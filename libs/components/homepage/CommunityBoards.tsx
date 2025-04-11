@@ -7,7 +7,7 @@ import { GET_BOARD_ARTICLES } from '../../../apollo/admin/query';
 import { T } from '../../types/common';
 import { BoardArticleCategory } from '../../enums/board-article.enum';
 
-const BlogComponent = () => {
+const CommunityComponent = () => {
 	const device = useDeviceDetect();
 	const [searchCommunity, setSearchCommunity] = useState({
 		page: 1,
@@ -77,7 +77,7 @@ const BlogComponent = () => {
 	});
 
 	if (device === 'mobile') {
-		return <div>BLOG COMPONENT (MOBILE)</div>;
+		return <div>COMMUNITY COMPONENT (MOBILE)</div>;
 	} else {
 		return (
 			<Stack className="blog-container">
@@ -85,10 +85,10 @@ const BlogComponent = () => {
 					{/* Left side content */}
 					<Box className="blog-left">
 						<Typography variant="h1" className="main-heading">
-							Transforming Spaces with Our Blog
+							Transforming Spaces with Our Community
 						</Typography>
 						<Typography className="blog-description">
-							Explore the world of interior design and furniture trends with our blog. Discover expert tips,
+							Explore the world of interior design and furniture trends with our Community. Discover expert tips,
 							inspiration, and the latest in home decor to elevate your living spaces
 						</Typography>
 
@@ -115,7 +115,7 @@ const BlogComponent = () => {
 					<Box className={'right'}>
 						<div className={'more-box'}>
 							<Link href={'/community'}>
-								<span>See All Blogs</span>
+								<span>See All Communitys</span>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</Link>
 						</div>
@@ -126,4 +126,4 @@ const BlogComponent = () => {
 	}
 };
 
-export default BlogComponent;
+export default CommunityComponent;

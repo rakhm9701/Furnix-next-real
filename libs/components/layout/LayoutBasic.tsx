@@ -48,11 +48,11 @@ const withLayoutBasic = (Component: any) => {
 					bgImage = '/img/banner/mypage.jpg';
 					break;
 				case '/community':
-					desc = 'Home / Blog';
+					desc = 'Home / Community';
 					bgImage = '/img/banner/blog.png';
 					break;
 				case '/community/detail':
-					desc = 'Home / Blog / Detail';
+					desc = 'Home / Community / Detail';
 					bgImage = '/img/banner/blog.png';
 					break;
 				case '/cs':

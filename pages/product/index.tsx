@@ -239,7 +239,7 @@ const ProductList: NextPage = ({ initialInput, ...props }: any) => {
 								{products && products.length > 0 && (
 									<Stack className="total-result">
 										<Typography>
-											Total {total} product{total > 1 ? 's' : 'y'} available
+											Total {total} product{total > 1 ? 's' : ''} available
 										</Typography>
 									</Stack>
 								)}
