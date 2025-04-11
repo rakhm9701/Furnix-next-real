@@ -75,7 +75,10 @@
 		.article-list-box {
 			width: 500px;
 			height: auto;
+			display: flex;
 			flex-direction: row;
+			justify-content: center;
+			align-items: center;
 			flex-wrap: wrap;
 			gap: 25px;
 			margin-top: 55px;
