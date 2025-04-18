@@ -64,7 +64,7 @@ const CartPage: NextPage = () => {
 					My Cart
 				</Typography>
 				<Box display="flex" alignItems="center">
-					{state.items.length > 0 && (
+					{/* {state.items.length > 0 && (
 						<Button
 							startIcon={<DeleteOutline />}
 							onClick={handleRemoveAll}
@@ -79,7 +79,7 @@ const CartPage: NextPage = () => {
 						>
 							Remove All
 						</Button>
-					)}
+					)} */}
 					<Button
 						startIcon={
 							<Box component="span" sx={{ transform: 'rotate(180deg)', display: 'flex' }}>
