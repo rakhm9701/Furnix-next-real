@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Button, Box, Container, Grid, IconButton } from '@mui/material';
+import { Typography, Button, Box, Container, Grid, IconButton, Stack } from '@mui/material';
 import { useRouter } from 'next/router';
 import { REACT_APP_API_URL } from '../../libs/config';
 import { formatterStr } from '../../libs/utils';
@@ -59,12 +59,12 @@ const CartPage: NextPage = () => {
 
 	return (
 		<Container maxWidth="lg" sx={{ py: 4 }}>
-			<Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+			<Stack display="flex" justifyContent="space-between" alignItems="center" mb={4}>
 				<Typography variant="h3" sx={{ fontWeight: 'bold' }}>
 					My Cart
 				</Typography>
-				<Box display="flex" alignItems="center">
-					{/* {state.items.length > 0 && (
+				<Stack display="flex" alignItems="center">
+					{state.items.length > 0 && (
 						<Button
 							startIcon={<DeleteOutline />}
 							onClick={handleRemoveAll}
@@ -79,23 +79,23 @@ const CartPage: NextPage = () => {
 						>
 							Remove All
 						</Button>
-					)} */}
+					)}
 					<Button
 						startIcon={
-							<Box component="span" sx={{ transform: 'rotate(180deg)', display: 'flex' }}>
+							<Stack component="span" sx={{ transform: 'rotate(180deg)', display: 'flex' }}>
 								→
-							</Box>
+							</Stack>
 						}
 						onClick={() => router.push('/product')}
 						sx={{ textTransform: 'none', fontWeight: 'normal', fontSize: '16px' }}
 					>
 						Back To Shopping
 					</Button>
-				</Box>
-			</Box>
+				</Stack>
+			</Stack>
 
 			{state.items.length === 0 ? (
-				<Box sx={{ textAlign: 'center', py: 8 }}>
+				<Stack sx={{ textAlign: 'center', py: 8 }}>
 					<Typography variant="h5" sx={{ color: '#666', mb: 3 }}>
 						Your cart is empty
 					</Typography>
@@ -110,10 +110,10 @@ const CartPage: NextPage = () => {
 					>
 						Start Shopping
 					</Button>
-				</Box>
+				</Stack>
 			) : (
 				<>
-					<Box sx={{ borderBottom: '1px solid #e0e0e0', pb: 1, mb: 2 }}>
+					<Stack sx={{ borderBottom: '1px solid #e0e0e0', pb: 1, mb: 2 }}>
 						<Grid container>
 							<Grid item xs={12} md={5}>
 								<Typography sx={{ fontWeight: 'normal', color: '#666' }}>Product</Typography>
@@ -128,14 +128,14 @@ const CartPage: NextPage = () => {
 								<Typography sx={{ fontWeight: 'normal', color: '#666' }}>Total</Typography>
 							</Grid>
 						</Grid>
-					</Box>
+					</Stack>
 
 					{state.items.map((item) => (
-						<Box key={item._id} sx={{ py: 3, borderBottom: '1px solid #e0e0e0' }}>
+						<Stack key={item._id} sx={{ py: 3, borderBottom: '1px solid #e0e0e0' }}>
 							<Grid container alignItems="center" spacing={2}>
 								<Grid item xs={12} md={5}>
-									<Box display="flex" alignItems="center">
-										<Box
+									<Stack display="flex" alignItems="center">
+										<Stack
 											sx={{
 												width: 120,
 												height: 120,
@@ -159,15 +159,15 @@ const CartPage: NextPage = () => {
 													target.src = '/img/placeholder.png';
 												}}
 											/>
-										</Box>
-										<Box>
-											<Box display="flex" mb={1}>
+										</Stack>
+										<Stack>
+											<Stack display="flex" mb={1}>
 												{[1, 2, 3, 4, 5].map((star) => (
-													<Box key={star} component="span" color="#FFB800" mr={0.5}>
+													<Stack key={star} component="span" color="#FFB800" mr={0.5}>
 														★
-													</Box>
+													</Stack>
 												))}
-											</Box>
+											</Stack>
 											<Typography variant="h6" sx={{ fontWeight: 'bold', mb: 0.5 }}>
 												{item.productTitle}
 											</Typography>
@@ -176,8 +176,8 @@ const CartPage: NextPage = () => {
 												<br />
 												{item.productMaterials}
 											</Typography>
-										</Box>
-									</Box>
+										</Stack>
+									</Stack>
 								</Grid>
 
 								<Grid item xs={12} md={2} sx={{ textAlign: { md: 'center' } }}>
@@ -185,7 +185,7 @@ const CartPage: NextPage = () => {
 								</Grid>
 
 								<Grid item xs={12} md={3} sx={{ textAlign: { md: 'center' } }}>
-									<Box
+									<Stack
 										sx={{
 											display: 'inline-flex',
 											alignItems: 'center',
@@ -201,7 +201,7 @@ const CartPage: NextPage = () => {
 										<Button sx={{ minWidth: '40px' }} onClick={() => handleQuantityChange(item._id, item.quantity + 1)}>
 											<Add />
 										</Button>
-									</Box>
+									</Stack>
 								</Grid>
 
 								<Grid item xs={12} md={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -209,7 +209,7 @@ const CartPage: NextPage = () => {
 										${formatterStr(item.productPrice * item.quantity)}
 									</Typography>
 									<Button onClick={() => handleRemoveItem(item._id)} sx={{ minWidth: 'auto', color: '#999' }}>
-										<Box display="flex" alignItems="center">
+										<Stack display="flex" alignItems="center">
 											<CloseIcon fontSize="small" />
 											<Typography
 												variant="body2"
@@ -218,40 +218,40 @@ const CartPage: NextPage = () => {
 											>
 												REMOVE
 											</Typography>
-										</Box>
+										</Stack>
 									</Button>
 								</Grid>
 							</Grid>
-						</Box>
+						</Stack>
 					))}
 
 					{/* Cart Summary */}
-					<Box sx={{ mt: 4 }}>
+					<Stack sx={{ mt: 4 }}>
 						<Grid container spacing={4}>
 							<Grid item xs={12} md={6}>
-								<Box sx={{ bgcolor: '#f9f9f9', p: 3 }}>
+								<Stack sx={{ bgcolor: '#f9f9f9', p: 3 }}>
 									<Typography variant="h5" sx={{ mb: 3 }}>
 										Cart Totals
 									</Typography>
 
-									<Box
+									<Stack
 										sx={{ display: 'flex', justifyContent: 'space-between', py: 2, borderBottom: '1px solid #e0e0e0' }}
 									>
 										<Typography>Cart Subtotal</Typography>
 										<Typography sx={{ fontWeight: 'bold' }}>${formatterStr(state.total)}</Typography>
-									</Box>
+									</Stack>
 
-									<Box
+									<Stack
 										sx={{ display: 'flex', justifyContent: 'space-between', py: 2, borderBottom: '1px solid #e0e0e0' }}
 									>
 										<Typography>Shipping</Typography>
 										<Typography sx={{ fontWeight: 'bold', color: 'green' }}>FREE</Typography>
-									</Box>
+									</Stack>
 
-									<Box sx={{ display: 'flex', justifyContent: 'space-between', py: 2 }}>
+									<Stack sx={{ display: 'flex', justifyContent: 'space-between', py: 2 }}>
 										<Typography sx={{ fontWeight: 'bold' }}>TOTAL</Typography>
 										<Typography sx={{ fontWeight: 'bold' }}>${formatterStr(state.total)}</Typography>
-									</Box>
+									</Stack>
 
 									<Button
 										variant="contained"
@@ -270,12 +270,12 @@ const CartPage: NextPage = () => {
 									>
 										PROCESSED TO CHECKOUT
 									</Button>
-								</Box>
+								</Stack>
 							</Grid>
 
 							<Grid item xs={12} md={6}>
-								<Box sx={{ p: 3, border: '1px solid #e0e0e0', display: 'flex', alignItems: 'center', height: '100%' }}>
-									<Box sx={{ flex: 1 }}>
+								<Stack sx={{ p: 3, border: '1px solid #e0e0e0', display: 'flex', alignItems: 'center', height: '100%' }}>
+									<Stack sx={{ flex: 1 }}>
 										<Typography variant="h6" sx={{ mb: 2 }}>
 											Explore Enhanced Possibilities
 										</Typography>
@@ -285,25 +285,25 @@ const CartPage: NextPage = () => {
 										<Button
 											sx={{ textTransform: 'none' }}
 											endIcon={
-												<Box component="span" sx={{ display: 'flex', alignItems: 'center' }}>
+												<Stack component="span" sx={{ display: 'flex', alignItems: 'center' }}>
 													⟶
-												</Box>
+												</Stack>
 											}
 										>
 											<Link href={'/about'}>Learn more</Link>
 										</Button>
-									</Box>
-									<Box sx={{ ml: 'auto' }}>
+									</Stack>
+									<Stack sx={{ ml: 'auto' }}>
 										<img
 											src="/img/fiber/card.jpg"
 											alt="Credit Card"
 											style={{ width: '300px', height: '250px', transform: 'rotate(19deg)' }}
 										/>
-									</Box>
-								</Box>
+									</Stack>
+								</Stack>
 							</Grid>
 						</Grid>
-					</Box>
+					</Stack>
 				</>
 			)}
 		</Container>
