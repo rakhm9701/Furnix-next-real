@@ -134,7 +134,11 @@ const CartPage: NextPage = () => {
 						<Stack key={item._id} sx={{ py: 3, borderBottom: '1px solid #e0e0e0' }}>
 							<Grid container alignItems="center" spacing={2}>
 								<Grid item xs={12} md={5}>
-									<Stack display="flex" alignItems="center">
+									<Stack
+										display="flex"
+										alignItems="center"
+										style={{ marginBottom: 1, display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+									>
 										<Stack
 											sx={{
 												width: 120,
@@ -144,6 +148,7 @@ const CartPage: NextPage = () => {
 												display: 'flex',
 												alignItems: 'center',
 												justifyContent: 'center',
+												flexDirection: 'row',
 											}}
 										>
 											<img
@@ -161,13 +166,13 @@ const CartPage: NextPage = () => {
 											/>
 										</Stack>
 										<Stack>
-											<Stack display="flex" mb={1}>
+											<div style={{ marginBottom: 1, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
 												{[1, 2, 3, 4, 5].map((star) => (
 													<Stack key={star} component="span" color="#FFB800" mr={0.5}>
 														★
 													</Stack>
 												))}
-											</Stack>
+											</div>
 											<Typography variant="h6" sx={{ fontWeight: 'bold', mb: 0.5 }}>
 												{item.productTitle}
 											</Typography>
@@ -188,6 +193,7 @@ const CartPage: NextPage = () => {
 									<Stack
 										sx={{
 											display: 'inline-flex',
+											flexDirection: 'row',
 											alignItems: 'center',
 											border: '1px solid #e0e0e0',
 											borderRadius: '50px',
@@ -204,7 +210,12 @@ const CartPage: NextPage = () => {
 									</Stack>
 								</Grid>
 
-								<Grid item xs={12} md={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+								<Grid
+									item
+									xs={12}
+									md={2}
+									sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'row' }}
+								>
 									<Typography sx={{ fontWeight: 'bold', textAlign: { md: 'right' }, flexGrow: 1 }}>
 										${formatterStr(item.productPrice * item.quantity)}
 									</Typography>
@@ -265,7 +276,7 @@ const CartPage: NextPage = () => {
 											'&:hover': { bgcolor: '#000' },
 											textTransform: 'uppercase',
 										}}
-										onClick={handleCheckout}
+										// onClick={handleCheckout}
 										disabled={state.items.length === 0}
 									>
 										PROCESSED TO CHECKOUT
@@ -274,7 +285,9 @@ const CartPage: NextPage = () => {
 							</Grid>
 
 							<Grid item xs={12} md={6}>
-								<Stack sx={{ p: 3, border: '1px solid #e0e0e0', display: 'flex', alignItems: 'center', height: '100%' }}>
+								<Stack
+									sx={{ p: 3, border: '1px solid #e0e0e0', display: 'flex', alignItems: 'center', height: '100%' }}
+								>
 									<Stack sx={{ flex: 1 }}>
 										<Typography variant="h6" sx={{ mb: 2 }}>
 											Explore Enhanced Possibilities
